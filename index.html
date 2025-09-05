@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theory This - Instant Theory Generation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .tagline {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .theory-output {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+        .theory-output.show {
+            display: block;
+        }
+        .theory {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .theory h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .conjectures {
+            margin-top: 10px;
+        }
+        .conjectures li {
+            margin-left: 20px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .scores {
+            margin-top: 10px;
+            display: flex;
+            gap: 15px;
+            font-size: 0.9em;
+        }
+        .score {
+            background: #e9ecef;
+            padding: 5px 10px;
+            border-radius: 15px;
+            color: #666;
+        }
+        .price-info {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #fff3cd;
+            border-radius: 10px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Theory This</h1>
+        <p class="tagline">Transform any concept into groundbreaking social science theories</p>
+        
+        <div class="price-info">
+            🎯 <strong>Free Preview</strong> - Try it now! | Full version: $20 for unlimited use
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="conceptInput" placeholder="Enter your concept (e.g., 'social media influence', 'democratic backsliding')" />
+        </div>
+
+        <button onclick="generateTheories()" id="generateBtn">Theory This!</button>
+
+        <div id="output" class="theory-output">
+            <h2>Generated Theories</h2>
+            <div id="theories"></div>
+        </div>
+    </div>
+
+    <script>
+        const theoreticalDimensions = [
+            'Authority & Power', 'Legitimacy & Consent', 'Institutional Design',
+            'Collective Action', 'Justice & Rights', 'Resource Distribution',
+            'Social Order', 'Political Participation', 'Conflict Resolution',
+            'Democratic Processes'
+        ];
+
+        const directions = ['emphasizes', 'challenges', 'reconceptualizes', 'integrates', 'transforms'];
+        
+        function generateTheories() {
+            const concept = document.getElementById('conceptInput').value.trim();
+            if (!concept) {
+                alert('Please enter a concept to theorize!');
+                return;
+            }
+
+            const button = document.getElementById('generateBtn');
+            button.disabled = true;
+            button.textContent = 'Generating theories...';
+
+            // Simulate generation time
+            setTimeout(() => {
+                const theories = [];
+                
+                for (let i = 0; i < 3; i++) {
+                    // Select random dimensions
+                    const shuffled = [...theoreticalDimensions].sort(() => 0.5 - Math.random());
+                    const selectedDims = shuffled.slice(0, 3);
+                    
+                    // Generate theory description
+                    const direction = directions[Math.floor(Math.random() * directions.length)];
+                    const description = `Theory that ${direction} ${selectedDims[0].toLowerCase()} 
+                        through ${selectedDims[1].toLowerCase()}, while considering ${selectedDims[2].toLowerCase()} 
+                        in the context of ${concept}.`;
+                    
+                    // Generate conjectures
+                    const conjectures = [
+                        `Higher levels of ${concept} will increase ${selectedDims[0].toLowerCase()} effectiveness`,
+                        `The relationship between ${concept} and ${selectedDims[1].toLowerCase()} exhibits threshold effects`,
+                        `${selectedDims[2]} moderates the impact of ${concept} on institutional outcomes`
+                    ];
+                    
+                    // Generate scores
+                    const scores = {
+                        novelty: (0.7 + Math.random() * 0.25).toFixed(2),
+                        coherence: (0.65 + Math.random() * 0.3).toFixed(2),
+                        testability: (0.6 + Math.random() * 0.35).toFixed(2)
+                    };
+                    
+                    theories.push({
+                        title: `Theory ${i + 1}: ${selectedDims[0]}-Based Framework`,
+                        description,
+                        conjectures,
+                        scores
+                    });
+                }
+                
+                displayTheories(theories);
+                button.disabled = false;
+                button.textContent = 'Theory This!';
+            }, 1500);
+        }
+
+        function displayTheories(theories) {
+            const output = document.getElementById('output');
+            const theoriesDiv = document.getElementById('theories');
+            
+            theoriesDiv.innerHTML = theories.map(theory => `
+                <div class="theory">
+                    <h3>${theory.title}</h3>
+                    <p>${theory.description}</p>
+                    <div class="conjectures">
+                        <strong>Testable Conjectures:</strong>
+                        <ul>
+                            ${theory.conjectures.map(c => `<li>${c}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="scores">
+                        <span class="score">Novelty: ${theory.scores.novelty}</span>
+                        <span class="score">Coherence: ${theory.scores.coherence}</span>
+                        <span class="score">Testability: ${theory.scores.testability}</span>
+                    </div>
+                </div>
+            `).join('');
+            
+            output.classList.add('show');
+        }
+
+        // Allow Enter key to generate
+        document.getElementById('conceptInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') generateTheories();
+        });
+    </script>
+</body>
+</html>
