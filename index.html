@@ -189,6 +189,127 @@
             margin-bottom: 20px;
             color: #444;
         }
+        // Add this above your ConjectureGenerator class
+const TheorySchemas = {
+    'relative deprivation': {
+        constructs: {
+            deprivation_gap: 'gap between expectations and actual outcomes',
+            reference_group_distance: 'social distance from comparison reference',
+            perceived_injustice: 'subjective assessment of unfairness',
+            grievance_intensity: 'emotional arousal from perceived injustice',
+            collective_efficacy: 'belief in group ability to achieve change',
+            mobilization_capacity: 'resources available for collective action',
+            repression_risk: 'expected costs of political action'
+        },
+        causal_relations: [
+            ['deprivation_gap', '+', 'perceived_injustice'],
+            ['reference_group_distance', '+', 'perceived_injustice'],
+            ['perceived_injustice', '+', 'grievance_intensity'],
+            ['grievance_intensity', '+', 'collective_efficacy', 'when repression_risk < threshold'],
+            ['collective_efficacy', '+', 'mobilization_capacity'],
+            ['repression_risk', '-', 'mobilization_capacity']
+        ],
+        mechanisms: ['social_comparison → injustice_perception → grievance_formation → collective_mobilization'],
+        scope_conditions: ['visible inequality', 'salient reference groups', 'political opportunity']
+    },
+    
+    'democratic backsliding': {
+        constructs: {
+            executive_aggrandizement: 'expansion of executive power beyond constitutional limits',
+            institutional_capture: 'control of oversight institutions by ruling party',
+            norm_erosion: 'breakdown of informal democratic restraints',
+            polarization_intensity: 'degree of affective polarization between parties',
+            media_control: 'government influence over information sources',
+            civil_society_constraint: 'strength of independent civic organizations'
+        },
+        causal_relations: [
+            ['polarization_intensity', '+', 'executive_aggrandizement'],
+            ['executive_aggrandizement', '+', 'institutional_capture'],
+            ['institutional_capture', '+', 'norm_erosion'],
+            ['media_control', '+', 'norm_erosion'],
+            ['civil_society_constraint', '-', 'executive_aggrandizement']
+        ],
+        mechanisms: ['polarization → executive_expansion → institutional_capture → norm_breakdown'],
+        scope_conditions: ['competitive_elections', 'weak_institutions', 'polarized_society']
+    }
+};
+
+// Enhanced variable generation using schemas
+generateVariables(activeDimensions, seedConcept) {
+    const key = seedConcept.toLowerCase().trim();
+    const schema = TheorySchemas[key];
+    
+    if (schema) {
+        const constructs = Object.keys(schema.constructs);
+        const relations = schema.causal_relations;
+        
+        return {
+            independent: constructs.filter(c => relations.some(r => r[0] === c)),
+            dependent: constructs.filter(c => relations.some(r => r[2] === c)),
+            moderators: constructs.filter(c => relations.some(r => r.length > 3)),
+            mediators: constructs.slice(0, 2) // First two as potential mediators
+        };
+    }
+    
+    // Fallback to your current method
+    return {
+        independent: [`${seedConcept}_level`],
+        dependent: [`${seedConcept}_outcome`],
+        moderators: ['institutional_context'],
+        mediators: ['social_mechanism']
+    };
+}
+
+// Add constraint tracking to prevent contradictions
+constructor(theoryVectorSpace) {
+    this.theorySpace = theoryVectorSpace;
+    this.constraintSet = new Set(); // Tracks generated relationships
+    // ... rest of your existing constructor
+}
+
+_recordConstraint(x, sign, y) {
+    this.constraintSet.add(`${x}|${sign}|${y}`);
+}
+
+_isContradictory(x, sign, y) {
+    const opposite = sign === '+' ? '-' : '+';
+    return this.constraintSet.has(`${x}|${opposite}|${y}`);
+}
+
+// Enhanced pattern instantiation with contradiction prevention
+instantiatePattern(pattern, variables, position, seedConcept) {
+    const X = this.selectVariable(variables.independent, `${seedConcept}_factor`);
+    const Y = this.selectVariable(variables.dependent, `${seedConcept}_outcome`);
+    const sign = Math.random() > 0.5 ? '+' : '-';
+    
+    // Check for contradictions
+    if (this._isContradictory(X, sign, Y)) {
+        return null; // Skip this conjecture
+    }
+    
+    this._recordConstraint(X, sign, Y);
+    
+    const direction = sign === '+' ? 'increases' : 'decreases';
+    
+    // More specific conjecture text
+    let text = '';
+    switch (pattern.name) {
+        case 'direct_causation':
+            text = `A one standard deviation increase in ${X} ${direction} ${Y} by approximately 0.2-0.4 standard deviations`;
+            break;
+        case 'threshold_effect':
+            text = `${X} affects ${Y} only above the critical threshold (estimated at 60-70th percentile of ${X} distribution)`;
+            break;
+        case 'feedback_loop':
+            text = `${Y} creates ${Math.random() > 0.5 ? 'reinforcing' : 'balancing'} feedback effects on ${X}, producing dynamic cycles over 2-3 time periods`;
+            break;
+        default:
+            text = `Changes in ${X} systematically ${direction} ${Y} under specified scope conditions`;
+    }
+    
+    return { text, variables: { independent: X, dependent: Y, sign } };
+}
+
         
         .conjectures-section {
             margin-top: 25px;
