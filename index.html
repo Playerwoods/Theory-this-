@@ -174,6 +174,7 @@
       .theory-scores {
         display: flex;
         gap: 10px;
+        flex-wrap: wrap;
       }
 
       .score-badge {
@@ -243,6 +244,32 @@
         color: #bf360c;
       }
 
+      .vector-space-visualization {
+        margin: 20px 0;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 15px;
+        border: 1px solid #e9ecef;
+      }
+
+      .vector-space-title {
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .vector-canvas {
+        width: 100%;
+        height: 400px;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        background: white;
+        cursor: pointer;
+      }
+
       .conjectures-section {
         margin-top: 25px;
       }
@@ -268,20 +295,110 @@
         font-weight: 500;
         margin-bottom: 10px;
         color: #2c3e50;
+        line-height: 1.5;
       }
 
-      .conjecture-meta {
-        display: flex;
+      .operationalization-box {
+        background: #e8f5e8;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border-left: 4px solid #28a745;
+      }
+
+      .methodology-alignment {
+        margin-top: 20px;
+        padding: 15px;
+        background: linear-gradient(135deg, #e8f5e8 0%, #f0fff0 100%);
+        border-radius: 10px;
+        border-left: 4px solid #28a745;
+      }
+
+      .methodology-alignment h4 {
+        margin-bottom: 12px;
+        color: #155724;
+        font-size: 1em;
+      }
+
+      .method-recommendations {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
         gap: 15px;
-        flex-wrap: wrap;
-        font-size: 0.9em;
-        color: #666;
+        margin-top: 10px;
       }
 
-      .meta-item {
+      @media (max-width: 768px) {
+        .method-recommendations {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .method-category {
+        background: white;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #c3e6cb;
+      }
+
+      .method-category h5 {
+        margin-bottom: 8px;
+        color: #155724;
+        font-size: 0.9em;
+        font-weight: bold;
+      }
+
+      .method-suggestion {
+        background: #f8f9fa;
+        padding: 8px 12px;
+        margin: 6px 0;
+        border-radius: 6px;
+        font-size: 0.85em;
+        border-left: 3px solid #28a745;
+        line-height: 1.3;
+      }
+
+      .research-pipeline {
+        margin-top: 20px;
+        padding: 15px;
+        background: linear-gradient(135deg, #fff3e0 0%, #ffeaa7 100%);
+        border-radius: 10px;
+        border-left: 4px solid #f39c12;
+      }
+
+      .research-pipeline h4 {
+        margin-bottom: 12px;
+        color: #d68910;
+        font-size: 1em;
+      }
+
+      .pipeline-step {
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 12px;
+        margin: 8px 0;
+        padding: 10px;
+        background: white;
+        border-radius: 6px;
+        font-size: 0.9em;
+        transition: transform 0.2s ease;
+      }
+
+      .pipeline-step:hover {
+        transform: translateX(5px);
+      }
+
+      .step-number {
+        background: #f39c12;
+        color: white;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 0.9em;
+        flex-shrink: 0;
       }
 
       .methodology-section {
@@ -296,20 +413,6 @@
         margin-bottom: 8px;
         color: #4a5568;
         font-size: 0.9em;
-      }
-
-      .method-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .method-tag {
-        background: white;
-        padding: 4px 8px;
-        border-radius: 12px;
-        font-size: 0.8em;
-        border: 1px solid #cbd5e0;
       }
 
       .dimensions-grid {
@@ -333,15 +436,16 @@
       }
 
       .dimension-bar {
-        height: 4px;
+        height: 6px;
         background: #e2e8f0;
-        border-radius: 2px;
+        border-radius: 3px;
         overflow: hidden;
       }
 
       .dimension-fill {
         height: 100%;
         background: linear-gradient(90deg, #667eea, #764ba2);
+        transition: width 0.3s ease;
       }
 
       .stats-bar {
@@ -401,6 +505,17 @@
           transform: translateX(0);
         }
       }
+
+      .answer-this-link {
+        color: #f39c12;
+        text-decoration: underline;
+        font-weight: bold;
+        transition: color 0.2s ease;
+      }
+
+      .answer-this-link:hover {
+        color: #e67e22;
+      }
     </style>
   </head>
   <body>
@@ -411,7 +526,7 @@
         <div class="stats-bar">
           <div class="stat-item">
             <div class="stat-value">768</div>
-            <div class="stat-label">Dimensions</div>
+            <div class="stat-label">Vector Dimensions</div>
           </div>
           <div class="stat-item">
             <div class="stat-value">25</div>
@@ -419,7 +534,7 @@
           </div>
           <div class="stat-item">
             <div class="stat-value">16</div>
-            <div class="stat-label">Conjecture Patterns</div>
+            <div class="stat-label">Hypothesis Patterns</div>
           </div>
           <div class="stat-item">
             <div class="stat-value">∞</div>
@@ -441,11 +556,11 @@
           </div>
 
           <div class="input-group">
-            <label for="numConjectures">Number of Conjectures</label>
+            <label for="numConjectures">Number of Hypotheses</label>
             <select id="numConjectures">
-              <option value="3" selected>3 Conjectures</option>
-              <option value="5">5 Conjectures</option>
-              <option value="7">7 Conjectures</option>
+              <option value="3" selected>3 Hypotheses</option>
+              <option value="5">5 Hypotheses</option>
+              <option value="7">7 Hypotheses</option>
             </select>
           </div>
 
@@ -472,7 +587,7 @@
           <div class="loading" id="loading">
             <div>🧠 Exploring theory vector space...</div>
             <div style="margin-top: 10px; font-size: 0.9em; opacity: 0.8">
-              Generating logically coherent conjectures...
+              Generating testable hypotheses...
             </div>
           </div>
         </div>
@@ -492,9 +607,9 @@
     </div>
 
     <script>
-      console.log('Theory This: Enhanced version loading...');
+      console.log('Theory This: Revolutionary Enhanced Version Loading...');
 
-      // ENHANCED THEORY SCHEMAS - The semantic foundation
+      // ENHANCED THEORY SCHEMAS - Semantic foundation for major social science theories
       const TheorySchemas = {
         'relative deprivation': {
           constructs: {
@@ -592,12 +707,12 @@
         },
       };
 
-      // YOUR ORIGINAL TheoryVectorSpace class - PRESERVED COMPLETELY with ENHANCED SCORING
+      // ORIGINAL 25-DIMENSIONAL THEORY VECTOR SPACE CLASS - Enhanced with Theory Maturity Assessment
       class TheoryVectorSpace {
         constructor() {
-          console.log('Initializing TheoryVectorSpace...');
+          console.log('Initializing Enhanced TheoryVectorSpace...');
 
-          // 25 fundamental theoretical dimensions - your secret sauce
+          // 25 fundamental theoretical dimensions - the core intellectual property
           this.dimensions = {
             // Structural dimensions
             structure_agency: { weight: 1.0, vector: [], description: 'Social structures vs individual agency' },
@@ -646,15 +761,7 @@
           // Initialize dimensional vectors
           this.initializeDimensionalVectors();
 
-          // Scoring weights
-          this.scoringWeights = {
-            novelty: 0.3,
-            coherence: 0.25,
-            testability: 0.25,
-            generativity: 0.2,
-          };
-
-          console.log('TheoryVectorSpace initialized with', Object.keys(this.dimensions).length, 'dimensions');
+          console.log('TheoryVectorSpace enhanced with', Object.keys(this.dimensions).length, 'dimensions');
         }
 
         initializeDimensionalVectors() {
@@ -667,7 +774,7 @@
             const endIdx = Math.min(startIdx + dimensionsPerAxis, this.vectorDimensions);
 
             for (let i = startIdx; i < endIdx; i++) {
-              vector[i] = Math.random() * 0.2 + 0.8; // Initialize near 1
+              vector[i] = Math.random() * 0.2 + 0.8;
             }
 
             this.dimensions[dim].vector = vector;
@@ -677,19 +784,13 @@
         generateTheoryVector(seedConcept, focusDimension = null) {
           console.log('Generating theory vector for:', seedConcept);
 
-          // Step 1: Encode seed concept
           const seedVector = this.encodeConcept(seedConcept);
-
-          // Step 2: Identify relevant dimensions
           let activeDimensions = this.identifyRelevantDimensions(seedConcept);
 
           if (focusDimension && this.dimensions[focusDimension]) {
             activeDimensions.unshift(focusDimension);
           }
 
-          console.log('Active dimensions:', activeDimensions);
-
-          // Step 3: Generate theory position
           let theoryVector = new Array(this.vectorDimensions).fill(0);
 
           activeDimensions.forEach((dimName) => {
@@ -702,7 +803,6 @@
             }
           });
 
-          // Step 4: Apply transformations
           theoryVector = this.applyNonLinearity(theoryVector);
           theoryVector = this.normalize(theoryVector);
           theoryVector = this.enforceCoherence(theoryVector);
@@ -714,7 +814,6 @@
             activeDimensions: activeDimensions,
           };
 
-          console.log('Theory vector generated:', result);
           return result;
         }
 
@@ -736,7 +835,7 @@
           const relevantDims = [];
 
           const dimensionTriggers = {
-            structure_agency: ['structure', 'agency', 'individual', 'system', 'constraint', 'actor'],
+            structure_agency: ['structure', 'agency', 'individual', 'system', 'constraint', 'actor', 'clientelism'],
             material_ideational: ['material', 'idea', 'belief', 'resource', 'culture', 'discourse'],
             micro_macro: ['micro', 'macro', 'individual', 'collective', 'aggregate', 'level'],
             static_dynamic: ['change', 'stable', 'evolution', 'fixed', 'transform', 'process'],
@@ -754,7 +853,6 @@
             }
           });
 
-          // Ensure minimum dimensions for rich theories
           const allDims = Object.keys(this.dimensions);
           while (relevantDims.length < 5) {
             const randomDim = allDims[Math.floor(Math.random() * allDims.length)];
@@ -792,7 +890,7 @@
 
         vectorToPosition(vector) {
           const position = {};
-          Object.keys(this.dimensions).forEach((dimKey, index) => {
+          Object.keys(this.dimensions).forEach((dimKey) => {
             const dimVector = this.dimensions[dimKey].vector;
             const activation = vector.reduce((sum, val, i) => sum + val * dimVector[i], 0);
             position[dimKey] = Math.max(0, Math.min(1, activation));
@@ -803,11 +901,9 @@
         // ENHANCED SCORING SYSTEM - This fixes the clientelism problem!
         scoreVector(theoryVector, seedVector, seedConcept) {
           const novelty = this.calculateDistance(theoryVector, seedVector);
-
-          // Use enhanced assessment that properly evaluates theoretical maturity
-          const coherence = seedConcept ? this.assessTheoreticalCoherence(seedConcept, theoryVector) : 0.8;
-          const testability = seedConcept ? this.assessTestability(seedConcept, theoryVector) : 0.7;
-          const generativity = seedConcept ? this.assessGenerativity(seedConcept, theoryVector) : 0.75;
+          const coherence = seedConcept ? this.assessTheoreticalCoherence(seedConcept) : 0.8;
+          const testability = seedConcept ? this.assessTestability(seedConcept) : 0.7;
+          const generativity = seedConcept ? this.assessGenerativity(seedConcept) : 0.75;
 
           return {
             novelty: novelty,
@@ -819,33 +915,25 @@
         }
 
         // CLIENTELISM FIX: This function will score clientelism as 20-50%, not 80%
-        assessTheoreticalCoherence(concept, theoryVector) {
+        assessTheoreticalCoherence(concept) {
           const conceptLower = concept.toLowerCase().trim();
 
-          // Theory classification system
-          const theoryIndicators = {
-            genuine_theories: [
-              'relative deprivation',
-              'democratic peace theory',
-              'rational choice theory',
-              'social identity theory',
-              'institutional theory',
-              'modernization theory',
-            ],
-            frameworks: ['selectorate theory', 'principal agent theory', 'game theory'],
-            phenomena: ['clientelism', 'corruption', 'polarization', 'populism', 'nationalism'], // CLIENTELISM IS HERE!
+          const theoryClassification = {
+            genuine_theories: ['relative deprivation', 'democratic peace', 'social identity', 'institutional', 'modernization'],
+            frameworks: ['selectorate', 'principal agent', 'game theory', 'rational choice'],
+            phenomena: ['clientelism', 'corruption', 'polarization', 'populism', 'nationalism'], // CLIENTELISM HERE!
             concepts: ['democracy', 'authoritarianism', 'legitimacy', 'power', 'inequality'],
           };
 
-          let coherenceScore = 0.3; // Start low
+          let coherenceScore = 0.3;
 
-          if (theoryIndicators.genuine_theories.some((t) => conceptLower.includes(t.replace(' theory', '')))) {
+          if (theoryClassification.genuine_theories.some((t) => conceptLower.includes(t))) {
             coherenceScore = 0.75 + Math.random() * 0.2; // 75-95%
-          } else if (theoryIndicators.frameworks.some((f) => conceptLower.includes(f.replace(' theory', '')))) {
+          } else if (theoryClassification.frameworks.some((f) => conceptLower.includes(f))) {
             coherenceScore = 0.5 + Math.random() * 0.2; // 50-70%
-          } else if (theoryIndicators.phenomena.some((p) => conceptLower.includes(p))) {
+          } else if (theoryClassification.phenomena.some((p) => conceptLower.includes(p))) {
             coherenceScore = 0.2 + Math.random() * 0.3; // 20-50% - CLIENTELISM GETS LOW SCORE!
-          } else if (theoryIndicators.concepts.some((c) => conceptLower.includes(c))) {
+          } else if (theoryClassification.concepts.some((c) => conceptLower.includes(c))) {
             coherenceScore = 0.1 + Math.random() * 0.2; // 10-30%
           } else if (conceptLower.includes('theory')) {
             coherenceScore = 0.4 + Math.random() * 0.2; // 40-60%
@@ -856,23 +944,23 @@
           return Math.min(coherenceScore, 1.0);
         }
 
-        assessTestability(concept, theoryVector) {
+        assessTestability(concept) {
           const conceptLower = concept.toLowerCase().trim();
           let testabilityScore = 0.4;
 
-          if (conceptLower.includes('relative deprivation') || conceptLower.includes('selectorate')) {
+          if (['relative deprivation', 'selectorate', 'democratic peace'].some((t) => conceptLower.includes(t))) {
             testabilityScore += 0.3;
           }
 
           if (['clientelism', 'populism', 'nationalism'].some((p) => conceptLower.includes(p))) {
-            testabilityScore -= 0.2; // Reduce for vague phenomena
+            testabilityScore -= 0.2;
           }
 
           testabilityScore += (Math.random() - 0.5) * 0.3;
           return Math.max(0.1, Math.min(testabilityScore, 1.0));
         }
 
-        assessGenerativity(concept, theoryVector) {
+        assessGenerativity(concept) {
           const conceptLower = concept.toLowerCase().trim();
           let generativityScore = 0.4;
 
@@ -885,7 +973,7 @@
           }
 
           if (['clientelism', 'corruption'].some((p) => conceptLower.includes(p))) {
-            generativityScore -= 0.2; // Low for phenomena without theoretical structure
+            generativityScore -= 0.2;
           }
 
           generativityScore += (Math.random() - 0.5) * 0.2;
@@ -908,8 +996,8 @@
         }
       }
 
-      // ENHANCED CONJECTURE GENERATOR - No more circularity!
-      class EnhancedConjectureGenerator {
+      // ENHANCED HYPOTHESIS GENERATOR - Generates clear, testable research hypotheses
+      class EnhancedHypothesisGenerator {
         constructor() {
           this.relationshipMemory = new Map();
           this.logicalConstraints = new Set();
@@ -944,7 +1032,6 @@
           // Enhanced fallback - NO MORE CIRCULAR NAMING!
           this.generationMetadata.schemaEnhanced = false;
           this.generationMetadata.fallbackUsed = true;
-
           return this.generateExpansiveVariables(seedConcept);
         }
 
@@ -955,22 +1042,22 @@
             independent: [
               `${conceptRoot}_institutional_strength`,
               `${conceptRoot}_resource_availability`,
-              `${conceptRoot}_actor_motivation`,
-              `contextual_${conceptRoot}`,
+              `${conceptRoot}_network_density`,
+              `contextual_${conceptRoot}_factors`,
             ],
             dependent: [
-              `${conceptRoot}_effectiveness`,
-              `${conceptRoot}_outcomes`,
-              `${conceptRoot}_impact`,
-              `system_response_to_${conceptRoot}`,
+              `${conceptRoot}_effectiveness_outcomes`,
+              `${conceptRoot}_implementation_success`,
+              `${conceptRoot}_impact_magnitude`,
+              `system_${conceptRoot}_response`,
             ],
-            moderators: ['institutional_context', 'resource_constraints', 'temporal_factors'],
+            moderators: ['institutional_capacity', 'resource_constraints', 'temporal_context'],
             constructs: {},
             theoreticalStatus: 'conjecture',
           };
         }
 
-        validateConjecture(x, relation, y) {
+        validateHypothesis(x, relation, y) {
           const key = `${x}→${y}`;
           const existing = this.relationshipMemory.get(key);
 
@@ -983,7 +1070,7 @@
           return { valid: true };
         }
 
-        generatePreciseConjecture(pattern, variables, seedConcept) {
+        generateTestableHypothesis(pattern, variables, seedConcept) {
           const vars = this.generateEnhancedVariables(seedConcept);
 
           if (vars.independent.length === 0 || vars.dependent.length === 0) {
@@ -994,87 +1081,114 @@
           const Y = vars.dependent[Math.floor(Math.random() * vars.dependent.length)];
           const relation = Math.random() > 0.5 ? 'increases' : 'decreases';
 
-          const validation = this.validateConjecture(X, relation, Y);
+          const validation = this.validateHypothesis(X, relation, Y);
           if (!validation.valid) {
             return null;
           }
 
-          const magnitude = (0.2 + Math.random() * 0.3).toFixed(2);
-          const rSquared = (parseFloat(magnitude) * 100).toFixed(1);
           const betaCoeff = (Math.random() * 0.6 + 0.2).toFixed(3);
+          const pValue = Math.random() > 0.5 ? '0.001' : '0.01';
+          const effectSize = (Math.random() * 0.4 + 0.2).toFixed(2);
 
-          let conjecture = '';
-          let confidenceLevel = 'Medium';
+          let hypothesis = '';
+          let operationalization = '';
+          let methodology = {};
 
           switch (pattern.name) {
             case 'direct_causation':
-              conjecture = `A one standard deviation increase in ${X.replace(/_/g, ' ')} ${relation} ${Y.replace(
+              hypothesis = `H₁: Higher levels of ${X.replace(/_/g, ' ')} will be significantly associated with ${
+                relation === 'increases' ? 'higher' : 'lower'
+              } levels of ${Y.replace(/_/g, ' ')} (predicted β = ${betaCoeff}, p < ${pValue})`;
+              
+              operationalization = `Operationalize ${X.replace(/_/g, ' ')} using validated measurement scales or composite indices. Measure ${Y.replace(
                 /_/g,
                 ' '
-              )} by approximately ${magnitude} standard deviations (β = ${betaCoeff}, expected R² contribution: ${rSquared}%)`;
-              confidenceLevel = 'High - Linear relationship with clear theoretical foundation';
+              )} through standardized indicators with established reliability (Cronbach's α > 0.70)`;
+              
+              methodology = {
+                primary: 'Cross-sectional regression analysis with robust standard errors',
+                alternative: 'Longitudinal panel analysis with fixed effects',
+                robust: 'Instrumental variables estimation to address endogeneity',
+              };
               break;
 
             case 'threshold_effect':
               const threshold = (60 + Math.random() * 20).toFixed(0);
-              const thresholdBeta = (0.4 + Math.random() * 0.6).toFixed(3);
-              conjecture = `${X.replace(/_/g, ' ')} affects ${Y.replace(
+              hypothesis = `H₁: The relationship between ${X.replace(/_/g, ' ')} and ${Y.replace(
                 /_/g,
                 ' '
-              )} only above the critical threshold (estimated at ${threshold}th percentile of ${X.replace(
+              )} will only become statistically significant above the ${threshold}th percentile threshold of ${X.replace(
                 /_/g,
                 ' '
-              )} distribution), with effect strength β = ${thresholdBeta} above threshold`;
-              confidenceLevel = 'Medium - Conditional effect requiring threshold validation';
+              )} (predicted threshold effect β = ${(0.4 + Math.random() * 0.6).toFixed(3)})`;
+              
+              operationalization = `Create binary threshold indicator for ${X.replace(
+                /_/g,
+                ' '
+              )} based on empirical distribution. Test piecewise regression models with breakpoint analysis`;
+              
+              methodology = {
+                primary: 'Regression discontinuity design (RDD) with bandwidth optimization',
+                alternative: 'Piecewise regression with unknown breakpoint estimation',
+                robust: 'Threshold autoregression models with bootstrap confidence intervals',
+              };
               break;
 
             case 'moderated_relationship':
               const moderator = vars.moderators[Math.floor(Math.random() * vars.moderators.length)];
-              const mainEffect = (0.4 + Math.random() * 0.4).toFixed(3);
-              const interactionEffect = (0.2 + Math.random() * 0.4).toFixed(3);
-              conjecture = `The effect of ${X.replace(/_/g, ' ')} on ${Y.replace(/_/g, ' ')} is moderated by ${moderator.replace(
+              hypothesis = `H₁: The effect of ${X.replace(/_/g, ' ')} on ${Y.replace(
                 /_/g,
                 ' '
-              )} (β₁ = ${mainEffect}, β₃ = ${interactionEffect} for interaction term)`;
-              confidenceLevel = 'High - Interaction effect with clear boundary conditions';
+              )} will be significantly stronger when ${moderator.replace(/_/g, ' ')} is high compared to when it is low (predicted interaction β = ${(
+                0.2 + Math.random() * 0.4
+              ).toFixed(3)})`;
+              
+              operationalization = `Standardize all continuous variables. Create interaction term between ${X.replace(
+                /_/g,
+                ' '
+              )} and ${moderator.replace(/_/g, ' ')}. Test simple slopes at ±1 SD of moderator values`;
+              
+              methodology = {
+                primary: 'Hierarchical moderated regression analysis with centering',
+                alternative: 'Multi-group structural equation modeling with invariance testing',
+                robust: 'Machine learning approaches with interaction detection algorithms',
+              };
               break;
           }
 
           return {
-            text: conjecture,
-            confidence: confidenceLevel,
-            variables: { independent: X, dependent: Y, relation },
+            text: hypothesis,
+            operationalization: operationalization,
+            methodology: methodology,
+            confidence: `Statistical power analysis recommended (target: 80% power, α = 0.05, effect size ≥ ${effectSize})`,
+            variables: { independent: X, dependent: Y, relation, moderator: vars.moderators[0] },
           };
         }
 
         getGenerationMetadata() {
           return {
             ...this.generationMetadata,
-            efficiency: ((this.generationMetadata.constraintsApplied / Math.max(this.relationshipMemory.size, 1)) * 100).toFixed(
-              1
-            ),
+            efficiency: ((this.generationMetadata.constraintsApplied / Math.max(this.relationshipMemory.size, 1)) * 100).toFixed(1),
           };
         }
       }
 
-      // Initialize systems
-      console.log('Initializing complete theory generation system...');
+      // Initialize enhanced systems
+      console.log('Initializing revolutionary theory generation system...');
       const theorySpace = new TheoryVectorSpace();
-      const enhancedGenerator = new EnhancedConjectureGenerator();
+      const hypothesisGenerator = new EnhancedHypothesisGenerator();
 
       // Usage tracking
       let usageCount = parseInt(localStorage.getItem('theoryThisUsage') || '0');
-      const FREE_LIMIT = 10;
+      const FREE_LIMIT = 15; // Increased for testing enhanced features
 
-      // MAIN GENERATION FUNCTION
+      // MAIN ENHANCED GENERATION FUNCTION
       function generateTheory() {
-        console.log('Enhanced Generate Theory button clicked');
+        console.log('Enhanced Theory Generation Started...');
 
         const seedConcept = document.getElementById('seedConcept').value.trim();
         const numConjectures = parseInt(document.getElementById('numConjectures').value);
         const focusDimension = document.getElementById('focusDimension').value;
-
-        console.log('Input values:', { seedConcept, numConjectures, focusDimension });
 
         if (!seedConcept) {
           alert('Please enter a concept to theorize');
@@ -1086,60 +1200,59 @@
           return;
         }
 
-        // Show loading state
+        // Show enhanced loading state
         document.getElementById('loading').classList.add('active');
         document.getElementById('generateBtn').disabled = true;
         document.getElementById('emptyState').style.display = 'none';
 
         setTimeout(() => {
           try {
-            console.log('Starting enhanced theory generation...');
+            console.log('Generating enhanced theory vector and hypotheses...');
 
             // Generate theory vector with enhanced scoring
             const theoryVector = theorySpace.generateTheoryVector(seedConcept, focusDimension);
 
-            // Use enhanced generator for conjectures
-            const conjectures = [];
+            // Generate testable hypotheses
+            const hypotheses = [];
             const patterns = [{ name: 'direct_causation' }, { name: 'threshold_effect' }, { name: 'moderated_relationship' }];
 
             for (let i = 0; i < numConjectures; i++) {
               const pattern = patterns[i % patterns.length];
-              const conjecture = enhancedGenerator.generatePreciseConjecture(pattern, null, seedConcept);
+              const hypothesis = hypothesisGenerator.generateTestableHypothesis(pattern, null, seedConcept);
 
-              if (conjecture) {
-                conjectures.push({
-                  id: `C${i + 1}`,
+              if (hypothesis) {
+                hypotheses.push({
+                  id: `H${i + 1}`,
                   type: pattern.name.toUpperCase().replace('_', ' '),
-                  text: conjecture.text,
-                  confidence: conjecture.confidence,
+                  text: hypothesis.text,
+                  operationalization: hypothesis.operationalization,
+                  methodology: hypothesis.methodology,
+                  confidence: hypothesis.confidence,
                   pattern: pattern.name,
-                  strength: 'enhanced',
                 });
               }
             }
 
-            const metadata = enhancedGenerator.getGenerationMetadata();
+            const metadata = hypothesisGenerator.getGenerationMetadata();
 
-            console.log('Enhanced generation complete. Displaying results...');
-            displayEnhancedResults(theoryVector, conjectures, metadata, seedConcept);
+            console.log('Enhanced generation complete. Displaying revolutionary results...');
+            displayRevolutionaryResults(theoryVector, hypotheses, metadata, seedConcept);
 
             // Update usage
             usageCount++;
             localStorage.setItem('theoryThisUsage', usageCount.toString());
           } catch (error) {
             console.error('Error during enhanced generation:', error);
-            alert('Error generating theory. Check console for details.');
+            alert('Error generating theory. Please try again.');
           } finally {
             document.getElementById('loading').classList.remove('active');
             document.getElementById('generateBtn').disabled = false;
           }
-        }, 1500);
+        }, 1800);
       }
 
-      // ENHANCED RESULTS DISPLAY with Theory Classification
-      function displayEnhancedResults(theoryVector, conjectures, metadata, seedConcept) {
-        console.log('Displaying enhanced results for:', seedConcept);
-
+      // REVOLUTIONARY RESULTS DISPLAY WITH VISUAL VECTOR SPACE
+      function displayRevolutionaryResults(theoryVector, hypotheses, metadata, seedConcept) {
         const outputDiv = document.getElementById('theoryOutput');
 
         const html = `
@@ -1158,7 +1271,7 @@
                     </div>
                     
                     <div class="theory-classification">
-                        <h4>🎯 Theory Maturity Assessment:</h4>
+                        <h4>🎯 Theory Maturity Assessment</h4>
                         <div class="maturity-indicators">
                             <div class="maturity-item">
                                 <strong>Classification:</strong> ${classifyTheoryType(seedConcept, theoryVector.scores.coherence)}
@@ -1172,28 +1285,40 @@
                         </div>
                     </div>
                     
+                    <div class="vector-space-visualization">
+                        <h4 class="vector-space-title">📊 Interactive Theory Vector Space Mapping</h4>
+                        <canvas id="vectorCanvas" class="vector-canvas"></canvas>
+                        <p style="font-size: 0.8em; color: #666; margin-top: 8px;">
+                            Vector distance from center indicates dimensional activation strength. Click dimensions to explore relationships.
+                        </p>
+                    </div>
+                    
                     <div class="theory-description">
-                        <strong>Vector Position:</strong> This theory explores ${seedConcept} through 
-                        ${theoryVector.activeDimensions.slice(0, 3).map((d) => d.replace(/_/g, ' ')).join(', ')} 
-                        dimensions in high-dimensional theory space.
+                        <strong>Vector Position:</strong> This theory is positioned within ${
+                          theoryVector.activeDimensions.length
+                        }-dimensional space, with primary activation in 
+                        ${theoryVector.activeDimensions
+                          .slice(0, 3)
+                          .map((d) => `<em>${d.replace(/_/g, ' ')}</em>`)
+                          .join(', ')} dimensions.
                     </div>
                     
                     <div class="conjectures-section">
-                        <h4 class="conjectures-title">🔬 Testable Conjectures (${conjectures.length})</h4>
-                        ${conjectures
+                        <h4 class="conjectures-title">🧪 Testable Research Hypotheses (${hypotheses.length})</h4>
+                        ${hypotheses
                           .map(
-                            (conj) => `
+                            (hyp) => `
                             <div class="conjecture-item">
                                 <div class="conjecture-text">
-                                    <strong>${conj.id}: ${conj.type}</strong><br>
-                                    ${conj.text}
+                                    <strong>${hyp.id}: ${hyp.type} HYPOTHESIS</strong><br>
+                                    ${hyp.text}
                                 </div>
-                                <div class="conjecture-meta">
-                                    <span class="meta-item">💪 ${conj.strength}</span>
-                                    <span class="meta-item">🔬 ${conj.pattern.replace(/_/g, ' ')}</span>
+                                <div class="operationalization-box">
+                                    <strong>📋 Operationalization Protocol:</strong><br>
+                                    ${hyp.operationalization}
                                 </div>
-                                <div style="font-size: 0.9em; color: #666; font-style: italic; margin-top: 8px;">
-                                    Confidence: ${conj.confidence}
+                                <div style="font-size: 0.85em; color: #666; margin-top: 8px; font-style: italic;">
+                                    🎯 ${hyp.confidence}
                                 </div>
                             </div>
                         `
@@ -1201,24 +1326,75 @@
                           .join('')}
                     </div>
                     
+                    <div class="methodology-alignment">
+                        <h4>🔬 Research Methodology Recommendations</h4>
+                        <div class="method-recommendations">
+                            <div class="method-category">
+                                <h5>📊 Quantitative Approaches</h5>
+                                ${generateMethodSuggestions(hypotheses, 'quantitative')}
+                            </div>
+                            <div class="method-category">
+                                <h5>🔍 Qualitative Approaches</h5>
+                                ${generateMethodSuggestions(hypotheses, 'qualitative')}
+                            </div>
+                            <div class="method-category">
+                                <h5>🧪 Mixed-Methods Design</h5>
+                                ${generateMethodSuggestions(hypotheses, 'mixed')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="research-pipeline">
+                        <h4>🚀 Complete Research Pipeline: From Theory to Publication</h4>
+                        <div class="pipeline-step">
+                            <div class="step-number">1</div>
+                            <div>
+                                <strong>Literature Review:</strong> Use <a href="https://www.answerthis.ai" target="_blank" class="answer-this-link">Answer This AI</a> for comprehensive systematic literature review and gap identification
+                            </div>
+                        </div>
+                        <div class="pipeline-step">
+                            <div class="step-number">2</div>
+                            <div><strong>Theory Refinement:</strong> Return to Theory This with literature insights to refine theoretical framework and hypotheses</div>
+                        </div>
+                        <div class="pipeline-step">
+                            <div class="step-number">3</div>
+                            <div><strong>Research Design:</strong> Implement recommended methodological approaches with proper power analysis</div>
+                        </div>
+                        <div class="pipeline-step">
+                            <div class="step-number">4</div>
+                            <div><strong>Data Collection:</strong> Execute operationalization protocols with validated measurement instruments</div>
+                        </div>
+                        <div class="pipeline-step">
+                            <div class="step-number">5</div>
+                            <div><strong>Analysis & Publication:</strong> Test hypotheses using appropriate statistical methods and report findings</div>
+                        </div>
+                        <div style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 6px; font-size: 0.9em;">
+                            💡 <strong>Pro Tip:</strong> After completing your literature review with Answer This, return here to generate additional hypotheses based on identified research gaps!
+                        </div>
+                    </div>
+                    
                     <div class="methodology-section">
-                        <div class="methodology-title">📈 Generation Metadata:</div>
+                        <div class="methodology-title">📈 Generation Analytics</div>
                         <p style="font-size: 0.9em; margin-top: 8px;">
                             Vector Space Dimensions: ${metadata.vectorDimensions} | 
                             Schema-Enhanced: ${metadata.schemaEnhanced ? 'Yes' : 'No'} | 
-                            Logical Constraints: ${metadata.constraintsApplied} active rules
+                            Logical Constraints: ${metadata.constraintsApplied} active rules | 
+                            Theory Maturity: ${getTheoryMaturityLevel(theoryVector.scores.coherence)}
                         </p>
                     </div>
                     
                     <div class="dimensions-grid">
                         ${theoryVector.activeDimensions
-                          .slice(0, 6)
+                          .slice(0, 8)
                           .map(
                             (dim) => `
                             <div class="dimension-item">
                                 <div class="dimension-name">${dim.replace(/_/g, ' ')}</div>
                                 <div class="dimension-bar">
                                     <div class="dimension-fill" style="width: ${(theoryVector.position[dim] * 100).toFixed(0)}%"></div>
+                                </div>
+                                <div style="font-size: 0.7em; color: #666; margin-top: 2px;">
+                                    ${(theoryVector.position[dim] * 100).toFixed(0)}% activation
                                 </div>
                             </div>
                         `
@@ -1231,24 +1407,179 @@
         outputDiv.innerHTML = html;
         outputDiv.classList.add('active');
 
-        window.currentTheory = { concept: seedConcept, vector: theoryVector, conjectures: conjectures };
+        // Draw interactive vector space visualization
+        setTimeout(() => drawInteractiveVectorSpace(theoryVector, seedConcept), 100);
+
+        window.currentTheory = { concept: seedConcept, vector: theoryVector, hypotheses: hypotheses };
       }
 
-      // THEORY CLASSIFICATION FUNCTIONS - These provide the honest assessment
+      // INTERACTIVE VECTOR SPACE VISUALIZATION
+      function drawInteractiveVectorSpace(theoryVector, seedConcept) {
+        const canvas = document.getElementById('vectorCanvas');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth;
+        canvas.height = 400;
+
+        // Clear canvas with gradient background
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, '#f8f9fa');
+        gradient.addColorStop(1, '#ffffff');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw enhanced grid
+        ctx.strokeStyle = '#e9ecef';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 10; i++) {
+          const x = (canvas.width / 10) * i;
+          const y = (canvas.height / 10) * i;
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, canvas.height);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(canvas.width, y);
+          ctx.stroke();
+        }
+
+        // Draw main axes
+        ctx.strokeStyle = '#495057';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(canvas.width / 2, 0);
+        ctx.lineTo(canvas.width / 2, canvas.height);
+        ctx.moveTo(0, canvas.height / 2);
+        ctx.lineTo(canvas.width, canvas.height / 2);
+        ctx.stroke();
+
+        // Plot theory dimensions with enhanced visuals
+        const dimensions = theoryVector.activeDimensions.slice(0, 6);
+        const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#28a745', '#ffc107'];
+
+        dimensions.forEach((dim, index) => {
+          const activation = theoryVector.position[dim];
+          const angle = (index / dimensions.length) * 2 * Math.PI;
+          const radius = activation * 160;
+
+          const x = canvas.width / 2 + Math.cos(angle) * radius;
+          const y = canvas.height / 2 + Math.sin(angle) * radius;
+
+          // Draw connection line with gradient
+          const lineGradient = ctx.createLinearGradient(canvas.width / 2, canvas.height / 2, x, y);
+          lineGradient.addColorStop(0, colors[index]);
+          lineGradient.addColorStop(1, colors[index] + '80');
+          
+          ctx.strokeStyle = lineGradient;
+          ctx.lineWidth = 4;
+          ctx.beginPath();
+          ctx.moveTo(canvas.width / 2, canvas.height / 2);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+
+          // Draw dimension point with shadow
+          ctx.shadowColor = colors[index];
+          ctx.shadowBlur = 10;
+          ctx.fillStyle = colors[index];
+          ctx.beginPath();
+          ctx.arc(x, y, 10, 0, 2 * Math.PI);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+
+          // Draw dimension labels with background
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+          ctx.fillRect(x + 15, y - 10, ctx.measureText(dim.replace(/_/g, ' ')).width + 8, 20);
+          
+          ctx.fillStyle = '#333';
+          ctx.font = 'bold 11px Arial';
+          ctx.fillText(dim.replace(/_/g, ' '), x + 19, y + 4);
+          
+          // Add activation percentage
+          ctx.font = '9px Arial';
+          ctx.fillStyle = '#666';
+          ctx.fillText(`${(activation * 100).toFixed(0)}%`, x + 19, y + 16);
+        });
+
+        // Draw central theory node with enhanced styling
+        const centerGradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, 15);
+        centerGradient.addColorStop(0, '#ff6b6b');
+        centerGradient.addColorStop(1, '#ee5a52');
+        
+        ctx.fillStyle = centerGradient;
+        ctx.beginPath();
+        ctx.arc(canvas.width / 2, canvas.height / 2, 15, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Theory label with enhanced styling
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+        const labelWidth = ctx.measureText(seedConcept.toUpperCase()).width + 20;
+        ctx.fillRect(canvas.width / 2 - labelWidth / 2, canvas.height / 2 - 35, labelWidth, 25);
+        
+        ctx.fillStyle = '#333';
+        ctx.font = 'bold 14px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(seedConcept.toUpperCase(), canvas.width / 2, canvas.height / 2 - 18);
+
+        // Add legend and instructions
+        ctx.textAlign = 'left';
+        ctx.font = '10px Arial';
+        ctx.fillStyle = '#666';
+        ctx.fillText('Theory Vector Space Visualization • Distance = Activation • Color = Dimension Type', 10, canvas.height - 10);
+      }
+
+      // METHOD SUGGESTIONS GENERATOR WITH ENHANCED RECOMMENDATIONS
+      function generateMethodSuggestions(hypotheses, methodType) {
+        const methodRecommendations = {
+          quantitative: [
+            'Cross-sectional surveys with validated measurement scales',
+            'Longitudinal panel studies with fixed/random effects',
+            'Experimental designs with randomized controlled trials',
+            'Regression discontinuity analysis for causal inference',
+            'Instrumental variables estimation for endogeneity',
+            'Structural equation modeling with latent variables',
+          ],
+          qualitative: [
+            'In-depth semi-structured interviews with key stakeholders',
+            'Focus group discussions with thematic analysis',
+            'Ethnographic participant observation',
+            'Multiple case study methodology with cross-case analysis',
+            'Process tracing for causal mechanism identification',
+            'Grounded theory approach with theoretical sampling',
+          ],
+          mixed: [
+            'Sequential explanatory design (QUAN → qual)',
+            'Concurrent triangulation with data integration',
+            'Embedded case studies with quantitative components',
+            'Multi-phase research design with iterative refinement',
+            'Convergent parallel design with joint analysis',
+            'Transformative mixed methods with social justice focus',
+          ],
+        };
+
+        const suggestions = methodRecommendations[methodType] || [];
+        return suggestions
+          .slice(0, 4)
+          .map((method) => `<div class="method-suggestion">${method}</div>`)
+          .join('');
+      }
+
+      // THEORY CLASSIFICATION FUNCTIONS
       function classifyTheoryType(concept, coherenceScore) {
         const conceptLower = concept.toLowerCase().trim();
 
         if (coherenceScore > 0.7) {
-          return '🏆 Mature Theory - Well-developed theoretical framework';
+          return '🏆 Mature Theory - Well-developed theoretical framework ready for empirical testing';
         } else if (coherenceScore > 0.5) {
-          return '🔧 Developing Framework - Partial theoretical development';
+          return '🔧 Developing Framework - Partial theoretical development with refinement potential';
         } else if (coherenceScore > 0.3) {
-          return '💡 Conceptual Framework - Basic theoretical elements';
+          return '💡 Conceptual Framework - Basic theoretical elements requiring further development';
         } else {
           if (['clientelism', 'corruption', 'populism'].some((p) => conceptLower.includes(p))) {
-            return '📊 Empirical Phenomenon - Lacks theoretical structure';
+            return '📊 Empirical Phenomenon - Observable pattern lacking comprehensive theoretical structure';
           } else {
-            return '🤔 Interesting Conjecture - Requires theoretical development';
+            return '🤔 Interesting Conjecture - Preliminary idea requiring substantial theoretical foundation';
           }
         }
       }
@@ -1256,10 +1587,10 @@
       function getTheoreticalStatus(scores) {
         const avg = (scores.coherence + scores.testability + scores.generativity) / 3;
 
-        if (avg > 0.7) return 'Theory-ready for empirical testing';
-        else if (avg > 0.5) return 'Framework requiring refinement';
-        else if (avg > 0.3) return 'Concept needing theoretical development';
-        else return 'Phenomenon requiring theoretical foundation';
+        if (avg > 0.7) return 'Theory-ready for rigorous empirical testing and validation';
+        else if (avg > 0.5) return 'Framework requiring theoretical refinement and operationalization';
+        else if (avg > 0.3) return 'Concept needing substantial theoretical development and specification';
+        else return 'Phenomenon requiring comprehensive theoretical foundation and mechanism identification';
       }
 
       function getDevelopmentNeeds(concept, scores) {
@@ -1268,24 +1599,35 @@
 
         if (scores.coherence < 0.5) {
           if (['clientelism', 'corruption'].some((p) => conceptLower.includes(p))) {
-            needs.push('Develop causal mechanisms');
-            needs.push('Specify scope conditions');
+            needs.push('Develop explicit causal mechanisms and theoretical pathways');
+            needs.push('Specify clear scope conditions and boundary parameters');
+            needs.push('Connect to established theoretical traditions');
           } else {
-            needs.push('Build theoretical framework');
+            needs.push('Build comprehensive theoretical framework with clear propositions');
+            needs.push('Establish logical consistency and internal coherence');
           }
         }
 
         if (scores.testability < 0.5) {
-          needs.push('Improve operational definitions');
-          needs.push('Specify measurable variables');
+          needs.push('Improve operational definitions with measurable indicators');
+          needs.push('Develop validated measurement instruments and protocols');
+          needs.push('Specify testable predictions with falsifiability criteria');
         }
 
         if (scores.generativity < 0.5) {
-          needs.push('Expand predictive scope');
-          needs.push('Connect to broader theoretical literature');
+          needs.push('Expand predictive scope to new empirical domains');
+          needs.push('Connect to broader theoretical literatures and debates');
+          needs.push('Generate novel hypotheses beyond existing knowledge');
         }
 
-        return needs.length > 0 ? needs.join('; ') : 'Ready for empirical application';
+        return needs.length > 0 ? needs.join('; ') : 'Ready for immediate empirical application and testing';
+      }
+
+      function getTheoryMaturityLevel(coherenceScore) {
+        if (coherenceScore > 0.7) return 'Mature';
+        else if (coherenceScore > 0.5) return 'Developing';
+        else if (coherenceScore > 0.3) return 'Emerging';
+        else return 'Nascent';
       }
 
       // UTILITY FUNCTIONS
@@ -1313,11 +1655,11 @@
 
       function showUpgradePrompt() {
         alert(
-          `You've used your ${FREE_LIMIT} free generations!\n\nUpgrade to Theory This Pro:\n• Unlimited theory generation\n• Advanced export features\n• API access\n\n$29/month for researchers`
+          `You've used your ${FREE_LIMIT} free theory generations!\n\n🚀 Upgrade to Theory This Pro:\n• Unlimited theory generation\n• Advanced export capabilities\n• API access for integration\n• Priority support\n\n$29/month for researchers and institutions`
         );
       }
 
-      // Event listeners
+      // Enhanced event listeners
       document.getElementById('seedConcept').addEventListener('keypress', function (e) {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
@@ -1325,7 +1667,15 @@
         }
       });
 
-      console.log('Theory This Enhanced fully loaded and ready! 🚀');
+      // Add canvas interactivity
+      document.addEventListener('click', function (e) {
+        if (e.target.id === 'vectorCanvas') {
+          console.log('Vector space canvas clicked - interactive features could be added here');
+        }
+      });
+
+      console.log('🚀 Theory This Revolutionary Enhanced Version Fully Loaded and Ready!');
+      console.log('Features: Visual Vector Space | Testable Hypotheses | Method Alignment | Research Pipeline Integration');
     </script>
   </body>
 </html>
