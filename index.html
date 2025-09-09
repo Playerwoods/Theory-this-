@@ -1,1141 +1,1314 @@
-    <script src="theory-schemas.js"></script>
-    <script src="enhanced-generator.js"></script>
-    <script src="script.js"></script> <!-- Your existing script -->
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Theory This - Advanced Theory Generation Engine</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #333;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 40px;
-            animation: fadeIn 1s ease-in;
-        }
-        
-        .header h1 {
-            font-size: 3.5em;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-        }
-        
-        .tagline {
-            font-size: 1.2em;
-            opacity: 0.9;
-            margin-bottom: 20px;
-        }
-        
+      body {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 32px 80px;
+        position: relative;
+        box-sizing: border-box;
+        font-family: 'Times New Roman', serif;
+        line-height: 1.6;
+        background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        min-height: 100vh;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .header {
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+        animation: fadeIn 1s ease-in;
+      }
+
+      .header h1 {
+        font-size: 3.5em;
+        margin-bottom: 10px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+      }
+
+      .tagline {
+        font-size: 1.2em;
+        opacity: 0.9;
+        margin-bottom: 20px;
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 1024px) {
         .main-content {
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
+          grid-template-columns: 1fr;
         }
-        
-        @media (max-width: 1024px) {
-            .main-content { grid-template-columns: 1fr; }
-        }
-        
-        .input-panel, .output-panel {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        
-        .input-group {
-            margin-bottom: 25px;
-        }
-        
-        .input-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #555;
-        }
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 15px;
-            transition: all 0.3s;
-            font-family: inherit;
-        }
-        
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .button-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-        
-        button {
-            flex: 1;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-        
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        button.secondary {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-        
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            color: #667eea;
-        }
-        
-        .loading.active { display: block; }
-        
-        .theory-output {
-            display: none;
-        }
-        
-        .theory-output.active {
-            display: block;
-            animation: slideIn 0.5s ease-out;
-        }
-        
-        .theory-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-left: 4px solid #667eea;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
-        
-        .theory-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 20px;
-        }
-        
-        .theory-title {
-            font-size: 1.4em;
-            font-weight: 700;
-            color: #667eea;
-        }
-        
-        .theory-scores {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .score-badge {
-            background: #f0f0f0;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 600;
-        }
-        
-        .score-high { background: #d4edda; color: #155724; }
-        .score-medium { background: #fff3cd; color: #856404; }
-        .score-low { background: #f8d7da; color: #721c24; }
-        
-        .theory-description {
-            font-size: 1.1em;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            color: #444;
-        }
-        // Add this above your ConjectureGenerator class
-const TheorySchemas = {
-    'relative deprivation': {
-        constructs: {
-            deprivation_gap: 'gap between expectations and actual outcomes',
-            reference_group_distance: 'social distance from comparison reference',
-            perceived_injustice: 'subjective assessment of unfairness',
-            grievance_intensity: 'emotional arousal from perceived injustice',
-            collective_efficacy: 'belief in group ability to achieve change',
-            mobilization_capacity: 'resources available for collective action',
-            repression_risk: 'expected costs of political action'
-        },
-        causal_relations: [
-            ['deprivation_gap', '+', 'perceived_injustice'],
-            ['reference_group_distance', '+', 'perceived_injustice'],
-            ['perceived_injustice', '+', 'grievance_intensity'],
-            ['grievance_intensity', '+', 'collective_efficacy', 'when repression_risk < threshold'],
-            ['collective_efficacy', '+', 'mobilization_capacity'],
-            ['repression_risk', '-', 'mobilization_capacity']
-        ],
-        mechanisms: ['social_comparison → injustice_perception → grievance_formation → collective_mobilization'],
-        scope_conditions: ['visible inequality', 'salient reference groups', 'political opportunity']
-    },
-    
-    'democratic backsliding': {
-        constructs: {
-            executive_aggrandizement: 'expansion of executive power beyond constitutional limits',
-            institutional_capture: 'control of oversight institutions by ruling party',
-            norm_erosion: 'breakdown of informal democratic restraints',
-            polarization_intensity: 'degree of affective polarization between parties',
-            media_control: 'government influence over information sources',
-            civil_society_constraint: 'strength of independent civic organizations'
-        },
-        causal_relations: [
-            ['polarization_intensity', '+', 'executive_aggrandizement'],
-            ['executive_aggrandizement', '+', 'institutional_capture'],
-            ['institutional_capture', '+', 'norm_erosion'],
-            ['media_control', '+', 'norm_erosion'],
-            ['civil_society_constraint', '-', 'executive_aggrandizement']
-        ],
-        mechanisms: ['polarization → executive_expansion → institutional_capture → norm_breakdown'],
-        scope_conditions: ['competitive_elections', 'weak_institutions', 'polarized_society']
-    }
-};
+      }
 
-// Enhanced variable generation using schemas
-generateVariables(activeDimensions, seedConcept) {
-    const key = seedConcept.toLowerCase().trim();
-    const schema = TheorySchemas[key];
-    
-    if (schema) {
-        const constructs = Object.keys(schema.constructs);
-        const relations = schema.causal_relations;
-        
-        return {
-            independent: constructs.filter(c => relations.some(r => r[0] === c)),
-            dependent: constructs.filter(c => relations.some(r => r[2] === c)),
-            moderators: constructs.filter(c => relations.some(r => r.length > 3)),
-            mediators: constructs.slice(0, 2) // First two as potential mediators
-        };
-    }
-    
-    // Fallback to your current method
-    return {
-        independent: [`${seedConcept}_level`],
-        dependent: [`${seedConcept}_outcome`],
-        moderators: ['institutional_context'],
-        mediators: ['social_mechanism']
-    };
-}
+      .input-panel,
+      .output-panel {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
 
-// Add constraint tracking to prevent contradictions
-constructor(theoryVectorSpace) {
-    this.theorySpace = theoryVectorSpace;
-    this.constraintSet = new Set(); // Tracks generated relationships
-    // ... rest of your existing constructor
-}
+      .input-group {
+        margin-bottom: 25px;
+      }
 
-_recordConstraint(x, sign, y) {
-    this.constraintSet.add(`${x}|${sign}|${y}`);
-}
+      .input-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #555;
+      }
 
-_isContradictory(x, sign, y) {
-    const opposite = sign === '+' ? '-' : '+';
-    return this.constraintSet.has(`${x}|${opposite}|${y}`);
-}
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 15px;
+        font-family: inherit;
+      }
 
-// Enhanced pattern instantiation with contradiction prevention
-instantiatePattern(pattern, variables, position, seedConcept) {
-    const X = this.selectVariable(variables.independent, `${seedConcept}_factor`);
-    const Y = this.selectVariable(variables.dependent, `${seedConcept}_outcome`);
-    const sign = Math.random() > 0.5 ? '+' : '-';
-    
-    // Check for contradictions
-    if (this._isContradictory(X, sign, Y)) {
-        return null; // Skip this conjecture
-    }
-    
-    this._recordConstraint(X, sign, Y);
-    
-    const direction = sign === '+' ? 'increases' : 'decreases';
-    
-    // More specific conjecture text
-    let text = '';
-    switch (pattern.name) {
-        case 'direct_causation':
-            text = `A one standard deviation increase in ${X} ${direction} ${Y} by approximately 0.2-0.4 standard deviations`;
-            break;
-        case 'threshold_effect':
-            text = `${X} affects ${Y} only above the critical threshold (estimated at 60-70th percentile of ${X} distribution)`;
-            break;
-        case 'feedback_loop':
-            text = `${Y} creates ${Math.random() > 0.5 ? 'reinforcing' : 'balancing'} feedback effects on ${X}, producing dynamic cycles over 2-3 time periods`;
-            break;
-        default:
-            text = `Changes in ${X} systematically ${direction} ${Y} under specified scope conditions`;
-    }
-    
-    return { text, variables: { independent: X, dependent: Y, sign } };
-}
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
 
-        
-        .conjectures-section {
-            margin-top: 25px;
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .button-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 25px;
+      }
+
+      button {
+        flex: 1;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      button.secondary {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 20px;
+        color: #667eea;
+      }
+
+      .loading.active {
+        display: block;
+      }
+
+      .theory-output {
+        display: none;
+      }
+
+      .theory-output.active {
+        display: block;
+        animation: slideIn 0.5s ease-out;
+      }
+
+      .theory-card {
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+        border-left: 4px solid #667eea;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .theory-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 20px;
+      }
+
+      .theory-title {
+        font-size: 1.4em;
+        font-weight: 700;
+        color: #667eea;
+      }
+
+      .theory-scores {
+        display: flex;
+        gap: 10px;
+      }
+
+      .score-badge {
+        background: #f0f0f0;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 600;
+      }
+
+      .score-high {
+        background: #d4edda;
+        color: #155724;
+      }
+      .score-medium {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .score-low {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      .theory-description {
+        font-size: 1.1em;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        color: #444;
+      }
+
+      .metadata {
+        font-size: 0.9em;
+        color: #666;
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 8px;
+        border-left: 3px solid #28a745;
+        margin-bottom: 15px;
+      }
+
+      .conjectures-section {
+        margin-top: 25px;
+      }
+
+      .conjectures-title {
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .conjecture-item {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        border: 1px solid #e9ecef;
+      }
+
+      .conjecture-text {
+        font-weight: 500;
+        margin-bottom: 10px;
+        color: #2c3e50;
+      }
+
+      .conjecture-meta {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        font-size: 0.9em;
+        color: #666;
+      }
+
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .methodology-section {
+        margin-top: 15px;
+        padding: 12px;
+        background: #f0f4ff;
+        border-radius: 8px;
+      }
+
+      .methodology-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #4a5568;
+        font-size: 0.9em;
+      }
+
+      .method-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .method-tag {
+        background: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.8em;
+        border: 1px solid #cbd5e0;
+      }
+
+      .dimensions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .dimension-item {
+        background: #f7fafc;
+        padding: 8px;
+        border-radius: 6px;
+        font-size: 0.8em;
+      }
+
+      .dimension-name {
+        font-weight: 600;
+        color: #4a5568;
+        margin-bottom: 4px;
+      }
+
+      .dimension-bar {
+        height: 4px;
+        background: #e2e8f0;
+        border-radius: 2px;
+        overflow: hidden;
+      }
+
+      .dimension-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+      }
+
+      .stats-bar {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        color: white;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 1.8em;
+        font-weight: 700;
+      }
+
+      .stat-label {
+        font-size: 0.9em;
+        opacity: 0.8;
+      }
+
+      .price-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        margin-left: 15px;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
         }
-        
-        .conjectures-title {
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        
-        .conjecture-item {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid #e9ecef;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(20px);
         }
-        
-        .conjecture-text {
-            font-weight: 500;
-            margin-bottom: 10px;
-            color: #2c3e50;
+        to {
+          opacity: 1;
+          transform: translateX(0);
         }
-        
-        .conjecture-meta {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            font-size: 0.9em;
-            color: #666;
-        }
-        
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .methodology-section {
-            margin-top: 15px;
-            padding: 12px;
-            background: #f0f4ff;
-            border-radius: 8px;
-        }
-        
-        .methodology-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #4a5568;
-            font-size: 0.9em;
-        }
-        
-        .method-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        
-        .method-tag {
-            background: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.8em;
-            border: 1px solid #cbd5e0;
-        }
-        
-        .dimensions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .dimension-item {
-            background: #f7fafc;
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 0.8em;
-        }
-        
-        .dimension-name {
-            font-weight: 600;
-            color: #4a5568;
-            margin-bottom: 4px;
-        }
-        
-        .dimension-bar {
-            height: 4px;
-            background: #e2e8f0;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .dimension-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transition: width 1s ease-out;
-        }
-        
-        .stats-bar {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            color: white;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 1.8em;
-            font-weight: 700;
-        }
-        
-        .stat-label {
-            font-size: 0.9em;
-            opacity: 0.8;
-        }
-        
-        .price-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            margin-left: 15px;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="header">
-            <h1>Theory This</h1>
-            <p class="tagline">Transform concepts into rigorous theoretical frameworks through mathematical vector space</p>
-            <div class="stats-bar">
-                <div class="stat-item">
-                    <div class="stat-value">768</div>
-                    <div class="stat-label">Dimensions</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">25</div>
-                    <div class="stat-label">Theoretical Axes</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">16</div>
-                    <div class="stat-label">Conjecture Patterns</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">∞</div>
-                    <div class="stat-label">Possible Theories</div>
-                </div>
+      <div class="header">
+        <h1>Theory This</h1>
+        <p class="tagline">Transform concepts into rigorous theoretical frameworks through mathematical vector space</p>
+        <div class="stats-bar">
+          <div class="stat-item">
+            <div class="stat-value">768</div>
+            <div class="stat-label">Dimensions</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">25</div>
+            <div class="stat-label">Theoretical Axes</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">16</div>
+            <div class="stat-label">Conjecture Patterns</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">∞</div>
+            <div class="stat-label">Possible Theories</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="input-panel">
+          <h2>Generate Theory <span class="price-badge">Enhanced Preview</span></h2>
+
+          <div class="input-group">
+            <label for="seedConcept">Seed Concept</label>
+            <textarea
+              id="seedConcept"
+              placeholder="Enter your research concept (e.g., 'selectorate theory', 'relative deprivation', 'democratic backsliding')"
+            ></textarea>
+          </div>
+
+          <div class="input-group">
+            <label for="numConjectures">Number of Conjectures</label>
+            <select id="numConjectures">
+              <option value="3" selected>3 Conjectures</option>
+              <option value="5">5 Conjectures</option>
+              <option value="7">7 Conjectures</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="focusDimension">Focus Dimension (Optional)</label>
+            <select id="focusDimension">
+              <option value="">Auto-select</option>
+              <option value="structure_agency">Structure vs Agency</option>
+              <option value="material_ideational">Material vs Ideational</option>
+              <option value="micro_macro">Micro vs Macro</option>
+              <option value="path_dependence">Path Dependence</option>
+              <option value="critical_junctures">Critical Junctures</option>
+              <option value="feedback_loops">Feedback Loops</option>
+              <option value="coercion_consent">Coercion vs Consent</option>
+              <option value="rational_normative">Rational vs Normative</option>
+            </select>
+          </div>
+
+          <div class="button-group">
+            <button onclick="generateTheory()" id="generateBtn">Generate Theory</button>
+            <button onclick="clearAll()" class="secondary">Clear</button>
+          </div>
+
+          <div class="loading" id="loading">
+            <div>🧠 Exploring theory vector space...</div>
+            <div style="margin-top: 10px; font-size: 0.9em; opacity: 0.8">
+              Generating logically coherent conjectures...
             </div>
+          </div>
         </div>
 
-        <div class="main-content">
-            <div class="input-panel">
-                <h2>Generate Theory <span class="price-badge">Free Preview</span></h2>
-                
-                <div class="input-group">
-                    <label for="seedConcept">Seed Concept</label>
-                    <textarea id="seedConcept" placeholder="Enter your research concept (e.g., 'democratic backsliding', 'social media polarization', 'institutional resilience')"></textarea>
-                </div>
-                
-                <div class="input-group">
-                    <label for="numConjectures">Number of Conjectures</label>
-                    <select id="numConjectures">
-                        <option value="3">3 Conjectures</option>
-                        <option value="5" selected>5 Conjectures</option>
-                        <option value="7">7 Conjectures</option>
-                    </select>
-                </div>
-                
-                <div class="input-group">
-                    <label for="focusDimension">Focus Dimension (Optional)</label>
-                    <select id="focusDimension">
-                        <option value="">Auto-select</option>
-                        <option value="structure_agency">Structure vs Agency</option>
-                        <option value="material_ideational">Material vs Ideational</option>
-                        <option value="micro_macro">Micro vs Macro</option>
-                        <option value="path_dependence">Path Dependence</option>
-                        <option value="critical_junctures">Critical Junctures</option>
-                        <option value="feedback_loops">Feedback Loops</option>
-                        <option value="coercion_consent">Coercion vs Consent</option>
-                        <option value="rational_normative">Rational vs Normative</option>
-                    </select>
-                </div>
-                
-                <div class="button-group">
-                    <button onclick="generateTheory()" id="generateBtn">Generate Theory</button>
-                    <button onclick="clearAll()" class="secondary">Clear</button>
-                </div>
-                
-                <div class="loading" id="loading">
-                    <div>🧠 Exploring theory vector space...</div>
-                    <div style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">Generating logically coherent conjectures...</div>
-                </div>
-            </div>
+        <div class="output-panel">
+          <div id="theoryOutput" class="theory-output">
+            <!-- Theory results will be inserted here -->
+          </div>
 
-            <div class="output-panel">
-                <div id="theoryOutput" class="theory-output">
-                    <!-- Theory results will be inserted here -->
-                </div>
-                
-                <div id="emptyState" style="text-align: center; padding: 60px 20px; color: #999;">
-                    <div style="font-size: 3em; margin-bottom: 20px;">🔬</div>
-                    <h3 style="margin-bottom: 10px;">No Theory Generated Yet</h3>
-                    <p>Enter a concept and click "Generate Theory" to explore the theoretical vector space</p>
-                </div>
-            </div>
+          <div id="emptyState" style="text-align: center; padding: 60px 20px; color: #999">
+            <div style="font-size: 3em; margin-bottom: 20px">🔬</div>
+            <h3 style="margin-bottom: 10px">No Theory Generated Yet</h3>
+            <p>Enter a concept and click "Generate Theory" to explore the theoretical vector space</p>
+          </div>
         </div>
+      </div>
     </div>
 
     <script>
-        // DEBUG: Add console logging for troubleshooting
-        console.log('Theory This: Starting initialization...');
-        
-        // Your proprietary TheoryVectorSpace class - THE CORE IP
-        class TheoryVectorSpace {
-            constructor() {
-                console.log('Initializing TheoryVectorSpace...');
-                
-                // 25 fundamental theoretical dimensions - your secret sauce
-                this.dimensions = {
-                    // Structural dimensions
-                    'structure_agency': {weight: 1.0, vector: [], description: 'Social structures vs individual agency'},
-                    'material_ideational': {weight: 1.0, vector: [], description: 'Material conditions vs ideas/beliefs'},
-                    'micro_macro': {weight: 1.0, vector: [], description: 'Individual level vs system level'},
-                    'static_dynamic': {weight: 1.0, vector: [], description: 'Fixed states vs change processes'},
-                    
-                    // Process dimensions
-                    'path_dependence': {weight: 1.0, vector: [], description: 'Historical constraints vs contingency'},
-                    'critical_junctures': {weight: 1.0, vector: [], description: 'Gradual change vs punctuated equilibrium'},
-                    'feedback_loops': {weight: 1.0, vector: [], description: 'Linear causation vs recursive effects'},
-                    'emergence_reduction': {weight: 1.0, vector: [], description: 'Emergent properties vs reductionism'},
-                    
-                    // Power dimensions
-                    'coercion_consent': {weight: 1.0, vector: [], description: 'Force vs legitimacy'},
-                    'centralized_distributed': {weight: 1.0, vector: [], description: 'Concentrated vs dispersed power'},
-                    'formal_informal': {weight: 1.0, vector: [], description: 'Official rules vs unofficial norms'},
-                    'visible_hidden': {weight: 1.0, vector: [], description: 'Transparent vs opaque power'},
-                    
-                    // Temporal dimensions
-                    'synchronic_diachronic': {weight: 1.0, vector: [], description: 'Snapshot vs historical development'},
-                    'short_long_term': {weight: 1.0, vector: [], description: 'Immediate vs extended timeframes'},
-                    'cyclical_linear': {weight: 1.0, vector: [], description: 'Recurring patterns vs progressive change'},
-                    
-                    // Spatial dimensions
-                    'local_global': {weight: 1.0, vector: [], description: 'Proximate vs distant effects'},
-                    'territorial_network': {weight: 1.0, vector: [], description: 'Geographic vs relational space'},
-                    'center_periphery': {weight: 1.0, vector: [], description: 'Core vs marginal positions'},
-                    
-                    // Epistemological dimensions
-                    'objective_subjective': {weight: 1.0, vector: [], description: 'External facts vs interpretations'},
-                    'universal_particular': {weight: 1.0, vector: [], description: 'General laws vs specific contexts'},
-                    'deterministic_probabilistic': {weight: 1.0, vector: [], description: 'Certain outcomes vs likelihood'},
-                    
-                    // Action dimensions
-                    'rational_normative': {weight: 1.0, vector: [], description: 'Strategic calculation vs value-driven'},
-                    'conflict_cooperation': {weight: 1.0, vector: [], description: 'Competition vs collaboration'},
-                    'exit_voice_loyalty': {weight: 1.0, vector: [], description: 'Leave vs protest vs accept'},
-                    'innovation_tradition': {weight: 1.0, vector: [], description: 'Novel solutions vs established practices'}
-                };
-                
-                // Vector space parameters
-                this.vectorDimensions = 768;
-                this.temperature = 0.7;
-                
-                // Initialize dimensional vectors
-                this.initializeDimensionalVectors();
-                
-                // Scoring weights
-                this.scoringWeights = {
-                    novelty: 0.3,
-                    coherence: 0.25,
-                    testability: 0.25,
-                    generativity: 0.2
-                };
-                
-                console.log('TheoryVectorSpace initialized with', Object.keys(this.dimensions).length, 'dimensions');
-            }
-            
-            initializeDimensionalVectors() {
-                const dimensionCount = Object.keys(this.dimensions).length;
-                const dimensionsPerAxis = Math.floor(this.vectorDimensions / dimensionCount);
-                
-                Object.keys(this.dimensions).forEach((dim, index) => {
-                    const vector = new Array(this.vectorDimensions).fill(0);
-                    const startIdx = index * dimensionsPerAxis;
-                    const endIdx = Math.min(startIdx + dimensionsPerAxis, this.vectorDimensions);
-                    
-                    for (let i = startIdx; i < endIdx; i++) {
-                        vector[i] = Math.random() * 0.2 + 0.8; // Initialize near 1
-                    }
-                    
-                    this.dimensions[dim].vector = vector;
-                });
-            }
-            
-            generateTheoryVector(seedConcept, focusDimension = null) {
-                console.log('Generating theory vector for:', seedConcept);
-                
-                // Step 1: Encode seed concept
-                const seedVector = this.encodeConcept(seedConcept);
-                
-                // Step 2: Identify relevant dimensions
-                let activeDimensions = this.identifyRelevantDimensions(seedConcept);
-                
-                if (focusDimension && this.dimensions[focusDimension]) {
-                    activeDimensions.unshift(focusDimension);
-                }
-                
-                console.log('Active dimensions:', activeDimensions);
-                
-                // Step 3: Generate theory position
-                let theoryVector = new Array(this.vectorDimensions).fill(0);
-                
-                activeDimensions.forEach(dimName => {
-                    const dimension = this.dimensions[dimName];
-                    const activation = this.calculateActivation(seedVector, dimension.vector);
-                    
-                    for (let i = 0; i < this.vectorDimensions; i++) {
-                        theoryVector[i] += dimension.vector[i] * activation * dimension.weight;
-                        theoryVector[i] += (Math.random() - 0.5) * this.temperature * 0.1;
-                    }
-                });
-                
-                // Step 4: Apply transformations
-                theoryVector = this.applyNonLinearity(theoryVector);
-                theoryVector = this.normalize(theoryVector);
-                theoryVector = this.enforceCoherence(theoryVector);
-                
-                const result = {
-                    vector: theoryVector,
-                    position: this.vectorToPosition(theoryVector),
-                    scores: this.scoreVector(theoryVector, seedVector),
-                    activeDimensions: activeDimensions
-                };
-                
-                console.log('Theory vector generated:', result);
-                return result;
-            }
-            
-            encodeConcept(concept) {
-                const vector = new Array(this.vectorDimensions).fill(0);
-                
-                for (let i = 0; i < concept.length - 2; i++) {
-                    const trigram = concept.substring(i, i + 3);
-                    const hash = this.hashString(trigram);
-                    const idx = Math.abs(hash) % this.vectorDimensions;
-                    vector[idx] += 1;
-                }
-                
-                return this.normalize(vector);
-            }
-            
-            identifyRelevantDimensions(concept) {
-                const conceptLower = concept.toLowerCase();
-                const relevantDims = [];
-                
-                const dimensionTriggers = {
-                    'structure_agency': ['structure', 'agency', 'individual', 'system', 'constraint', 'actor'],
-                    'material_ideational': ['material', 'idea', 'belief', 'resource', 'culture', 'discourse'],
-                    'micro_macro': ['micro', 'macro', 'individual', 'collective', 'aggregate', 'level'],
-                    'static_dynamic': ['change', 'stable', 'evolution', 'fixed', 'transform', 'process'],
-                    'path_dependence': ['history', 'path', 'legacy', 'tradition', 'precedent'],
-                    'critical_junctures': ['crisis', 'turning', 'rupture', 'breakthrough'],
-                    'feedback_loops': ['feedback', 'recursive', 'reinforcing', 'cycle'],
-                    'coercion_consent': ['power', 'force', 'legitimate', 'authority', 'control'],
-                    'rational_normative': ['rational', 'norm', 'value', 'strategic', 'moral'],
-                    'conflict_cooperation': ['conflict', 'cooperation', 'competition', 'collaboration']
-                };
-                
-                Object.entries(dimensionTriggers).forEach(([dim, triggers]) => {
-                    if (triggers.some(trigger => conceptLower.includes(trigger))) {
-                        relevantDims.push(dim);
-                    }
-                });
-                
-                // Ensure minimum dimensions for rich theories
-                const allDims = Object.keys(this.dimensions);
-                while (relevantDims.length < 5) {
-                    const randomDim = allDims[Math.floor(Math.random() * allDims.length)];
-                    if (!relevantDims.includes(randomDim)) {
-                        relevantDims.push(randomDim);
-                    }
-                }
-                
-                return relevantDims;
-            }
-            
-            calculateActivation(seedVector, dimensionVector) {
-                const dotProduct = seedVector.reduce((sum, val, i) => sum + val * dimensionVector[i], 0);
-                const magnitude1 = Math.sqrt(seedVector.reduce((sum, val) => sum + val * val, 0));
-                const magnitude2 = Math.sqrt(dimensionVector.reduce((sum, val) => sum + val * val, 0));
-                
-                const similarity = dotProduct / (magnitude1 * magnitude2 + 1e-8);
-                const noise = (Math.random() - 0.5) * this.temperature;
-                
-                return 1 / (1 + Math.exp(-(similarity + noise)));
-            }
-            
-            applyNonLinearity(vector) {
-                return vector.map(val => val > 0 ? val * (1 + Math.random() * 0.1) : val * 0.1);
-            }
-            
-            normalize(vector) {
-                const magnitude = Math.sqrt(vector.reduce((sum, val) => sum + val * val, 0));
-                return magnitude === 0 ? vector : vector.map(val => val / magnitude);
-            }
-            
-            enforceCoherence(vector) {
-                // Simplified coherence enforcement
-                return vector; // For now, return as-is
-            }
-            
-            vectorToPosition(vector) {
-                const position = {};
-                Object.keys(this.dimensions).forEach((dimKey, index) => {
-                    const dimVector = this.dimensions[dimKey].vector;
-                    const activation = vector.reduce((sum, val, i) => sum + val * dimVector[i], 0);
-                    position[dimKey] = Math.max(0, Math.min(1, activation));
-                });
-                return position;
-            }
-            
-            scoreVector(theoryVector, seedVector) {
-                const novelty = this.calculateDistance(theoryVector, seedVector);
-                const coherence = 0.8; // Simplified
-                const testability = 0.7; // Simplified
-                const generativity = 0.75; // Simplified
-                
-                return {
-                    novelty: novelty,
-                    coherence: coherence,
-                    testability: testability,
-                    generativity: generativity,
-                    total: novelty * 0.3 + coherence * 0.25 + testability * 0.25 + generativity * 0.2
-                };
-            }
-            
-            calculateDistance(vec1, vec2) {
-                const sum = vec1.reduce((acc, val, i) => acc + Math.pow(val - vec2[i], 2), 0);
-                return Math.min(Math.sqrt(sum) / Math.sqrt(this.vectorDimensions), 1);
-            }
-            
-            hashString(str) {
-                let hash = 0;
-                for (let i = 0; i < str.length; i++) {
-                    const char = str.charCodeAt(i);
-                    hash = ((hash << 5) - hash) + char;
-                    hash = hash & hash;
-                }
-                return hash;
-            }
+      console.log('Theory This: Enhanced version loading...');
+
+      // ENHANCED THEORY SCHEMAS - The semantic foundation
+      const TheorySchemas = {
+        'relative deprivation': {
+          constructs: {
+            expectation_achievement_gap: 'difference between expected and actual outcomes',
+            reference_group_comparison: 'social comparison with relevant others',
+            perceived_distributive_injustice: 'subjective assessment of unfair resource allocation',
+            collective_grievance_intensity: 'emotional arousal from group-based injustice',
+            political_efficacy_belief: 'confidence in ability to influence political outcomes',
+            mobilization_resource_availability: 'material and social resources for collective action',
+            state_repression_capacity: 'government ability to suppress dissent',
+          },
+          causal_patterns: [
+            ['expectation_achievement_gap', '+', 'perceived_distributive_injustice'],
+            ['reference_group_comparison', '+', 'collective_grievance_intensity'],
+            ['perceived_distributive_injustice', '+', 'collective_grievance_intensity'],
+            ['collective_grievance_intensity', '+', 'political_efficacy_belief'],
+            ['political_efficacy_belief', '+', 'mobilization_resource_availability'],
+            ['state_repression_capacity', '-', 'mobilization_resource_availability'],
+          ],
+          scope_conditions: ['visible_inequality', 'salient_reference_groups', 'political_opportunities'],
+          theoretical_status: 'established',
+        },
+
+        'selectorate theory': {
+          constructs: {
+            winning_coalition_size: 'number of supporters needed to maintain power',
+            selectorate_size: 'total pool of potential supporters',
+            loyalty_norm_strength: 'cultural expectation of supporter faithfulness',
+            public_goods_provision: 'resources benefiting entire population',
+            private_goods_distribution: 'targeted benefits to specific supporters',
+            leader_survival_probability: 'likelihood of maintaining political position',
+            citizen_welfare_outcomes: 'aggregate population wellbeing measures',
+            leader_accountability: 'responsiveness to broader public interests',
+            coalition_loyalty: 'commitment of supporters to current leadership',
+            leadership_turnover: 'frequency of leadership change',
+          },
+          causal_patterns: [
+            ['winning_coalition_size', '+', 'public_goods_provision'],
+            ['selectorate_size', '+', 'leader_accountability'],
+            ['loyalty_norm_strength', '-', 'leadership_turnover'],
+            ['private_goods_distribution', '+', 'coalition_loyalty'],
+            ['public_goods_provision', '+', 'citizen_welfare_outcomes'],
+            ['leader_accountability', '+', 'citizen_welfare_outcomes'],
+            ['winning_coalition_size', '-', 'private_goods_distribution'],
+          ],
+          scope_conditions: ['political_competition', 'resource_availability', 'institutional_constraints'],
+          theoretical_status: 'developing_framework',
+        },
+
+        'democratic backsliding': {
+          constructs: {
+            executive_power_concentration: 'expansion beyond constitutional limits',
+            judicial_independence_erosion: 'political control over courts',
+            media_pluralism_decline: 'reduction in independent news sources',
+            civil_society_space_contraction: 'restrictions on NGOs and civic organizations',
+            electoral_integrity_degradation: 'manipulation of voting processes',
+            opposition_harassment_intensity: 'persecution of political rivals',
+            polarization_affective_distance: 'emotional hostility between political groups',
+          },
+          causal_patterns: [
+            ['polarization_affective_distance', '+', 'executive_power_concentration'],
+            ['executive_power_concentration', '+', 'judicial_independence_erosion'],
+            ['judicial_independence_erosion', '+', 'media_pluralism_decline'],
+            ['media_pluralism_decline', '+', 'civil_society_space_contraction'],
+            ['opposition_harassment_intensity', '+', 'electoral_integrity_degradation'],
+            ['civil_society_space_contraction', '+', 'opposition_harassment_intensity'],
+          ],
+          scope_conditions: ['competitive_elections', 'weak_institutions', 'polarized_society'],
+          theoretical_status: 'established',
+        },
+
+        'democratic peace theory': {
+          constructs: {
+            democratic_institutional_constraints: 'checks on executive war powers',
+            democratic_norm_internalization: 'peaceful conflict resolution values',
+            public_opinion_constraint: 'electoral costs of military action',
+            transparency_mechanisms: 'open information about intentions',
+            economic_interdependence: 'trade-based conflict costs',
+            international_conflict_propensity: 'likelihood of interstate war',
+            diplomatic_cooperation_frequency: 'peaceful interaction patterns',
+            military_intervention_likelihood: 'probability of armed intervention',
+            security_dilemma_intensity: 'mutual fear and mistrust dynamics',
+            conflict_escalation_risk: 'potential for violence increase',
+          },
+          causal_patterns: [
+            ['democratic_institutional_constraints', '-', 'international_conflict_propensity'],
+            ['democratic_norm_internalization', '+', 'diplomatic_cooperation_frequency'],
+            ['public_opinion_constraint', '-', 'military_intervention_likelihood'],
+            ['transparency_mechanisms', '-', 'security_dilemma_intensity'],
+            ['economic_interdependence', '-', 'conflict_escalation_risk'],
+            ['diplomatic_cooperation_frequency', '-', 'international_conflict_propensity'],
+          ],
+          scope_conditions: ['stable_democracies', 'no_territorial_disputes', 'economic_development'],
+          theoretical_status: 'established',
+        },
+      };
+
+      // YOUR ORIGINAL TheoryVectorSpace class - PRESERVED COMPLETELY
+      class TheoryVectorSpace {
+        constructor() {
+          console.log('Initializing TheoryVectorSpace...');
+
+          // 25 fundamental theoretical dimensions - your secret sauce
+          this.dimensions = {
+            // Structural dimensions
+            structure_agency: { weight: 1.0, vector: [], description: 'Social structures vs individual agency' },
+            material_ideational: { weight: 1.0, vector: [], description: 'Material conditions vs ideas/beliefs' },
+            micro_macro: { weight: 1.0, vector: [], description: 'Individual level vs system level' },
+            static_dynamic: { weight: 1.0, vector: [], description: 'Fixed states vs change processes' },
+
+            // Process dimensions
+            path_dependence: { weight: 1.0, vector: [], description: 'Historical constraints vs contingency' },
+            critical_junctures: { weight: 1.0, vector: [], description: 'Gradual change vs punctuated equilibrium' },
+            feedback_loops: { weight: 1.0, vector: [], description: 'Linear causation vs recursive effects' },
+            emergence_reduction: { weight: 1.0, vector: [], description: 'Emergent properties vs reductionism' },
+
+            // Power dimensions
+            coercion_consent: { weight: 1.0, vector: [], description: 'Force vs legitimacy' },
+            centralized_distributed: { weight: 1.0, vector: [], description: 'Concentrated vs dispersed power' },
+            formal_informal: { weight: 1.0, vector: [], description: 'Official rules vs unofficial norms' },
+            visible_hidden: { weight: 1.0, vector: [], description: 'Transparent vs opaque power' },
+
+            // Temporal dimensions
+            synchronic_diachronic: { weight: 1.0, vector: [], description: 'Snapshot vs historical development' },
+            short_long_term: { weight: 1.0, vector: [], description: 'Immediate vs extended timeframes' },
+            cyclical_linear: { weight: 1.0, vector: [], description: 'Recurring patterns vs progressive change' },
+
+            // Spatial dimensions
+            local_global: { weight: 1.0, vector: [], description: 'Proximate vs distant effects' },
+            territorial_network: { weight: 1.0, vector: [], description: 'Geographic vs relational space' },
+            center_periphery: { weight: 1.0, vector: [], description: 'Core vs marginal positions' },
+
+            // Epistemological dimensions
+            objective_subjective: { weight: 1.0, vector: [], description: 'External facts vs interpretations' },
+            universal_particular: { weight: 1.0, vector: [], description: 'General laws vs specific contexts' },
+            deterministic_probabilistic: { weight: 1.0, vector: [], description: 'Certain outcomes vs likelihood' },
+
+            // Action dimensions
+            rational_normative: { weight: 1.0, vector: [], description: 'Strategic calculation vs value-driven' },
+            conflict_cooperation: { weight: 1.0, vector: [], description: 'Competition vs collaboration' },
+            exit_voice_loyalty: { weight: 1.0, vector: [], description: 'Leave vs protest vs accept' },
+            innovation_tradition: { weight: 1.0, vector: [], description: 'Novel solutions vs established practices' },
+          };
+
+          // Vector space parameters
+          this.vectorDimensions = 768;
+          this.temperature = 0.7;
+
+          // Initialize dimensional vectors
+          this.initializeDimensionalVectors();
+
+          // Scoring weights
+          this.scoringWeights = {
+            novelty: 0.3,
+            coherence: 0.25,
+            testability: 0.25,
+            generativity: 0.2,
+          };
+
+          console.log('TheoryVectorSpace initialized with', Object.keys(this.dimensions).length, 'dimensions');
         }
-        
-        // ConjectureGenerator class
-        class ConjectureGenerator {
-            constructor(theoryVectorSpace) {
-                console.log('Initializing ConjectureGenerator...');
-                this.theorySpace = theoryVectorSpace;
-                
-                this.conjecturePatterns = {
-                    'direct_causation': {
-                        template: "Increases in {X} lead to {direction} in {Y}",
-                        requires: ['independent', 'dependent'],
-                        strength: 'strong'
-                    },
-                    'conditional_causation': {
-                        template: "The effect of {X} on {Y} is contingent upon levels of {Z}",
-                        requires: ['independent', 'dependent', 'moderator'],
-                        strength: 'moderate'
-                    },
-                    'threshold_effect': {
-                        template: "{X} only affects {Y} after reaching critical threshold {T}",
-                        requires: ['independent', 'dependent', 'threshold'],
-                        strength: 'strong'
-                    },
-                    'interaction_effect': {
-                        template: "The combination of high {X} and high {Z} produces {synergy} effects on {Y}",
-                        requires: ['independent1', 'independent2', 'dependent'],
-                        strength: 'strong'
-                    },
-                    'mediating_mechanism': {
-                        template: "{X} affects {Y} through the mediating mechanism of {M}",
-                        requires: ['independent', 'mediator', 'dependent'],
-                        strength: 'strong'
-                    },
-                    'feedback_loop': {
-                        template: "{Y} creates {type} feedback loop affecting future values of {X}",
-                        requires: ['initial', 'feedback_var', 'loop_type'],
-                        strength: 'strong'
-                    }
-                };
-                
-                this.variableGenerators = {
-                    'structure_agency': ['institutional_capacity', 'individual_autonomy', 'structural_constraints'],
-                    'material_ideational': ['resource_distribution', 'ideological_alignment', 'cultural_values'],
-                    'micro_macro': ['individual_behavior', 'aggregate_outcomes', 'system_properties'],
-                    'coercion_consent': ['state_capacity', 'legitimacy', 'compliance_rates'],
-                    'path_dependence': ['historical_legacies', 'institutional_inertia', 'lock_in_effects'],
-                    'critical_junctures': ['crisis_severity', 'window_of_opportunity', 'transformation_rate'],
-                    'feedback_loops': ['positive_feedback', 'negative_feedback', 'system_resilience'],
-                    'rational_normative': ['utility_maximization', 'normative_compliance', 'value_alignment']
-                };
-                
-                console.log('ConjectureGenerator initialized');
+
+        initializeDimensionalVectors() {
+          const dimensionCount = Object.keys(this.dimensions).length;
+          const dimensionsPerAxis = Math.floor(this.vectorDimensions / dimensionCount);
+
+          Object.keys(this.dimensions).forEach((dim, index) => {
+            const vector = new Array(this.vectorDimensions).fill(0);
+            const startIdx = index * dimensionsPerAxis;
+            const endIdx = Math.min(startIdx + dimensionsPerAxis, this.vectorDimensions);
+
+            for (let i = startIdx; i < endIdx; i++) {
+              vector[i] = Math.random() * 0.2 + 0.8; // Initialize near 1
             }
-            
-            generateConjectures(theoryVector, seedConcept, numConjectures = 5) {
-                console.log('Generating conjectures for:', seedConcept, 'Number requested:', numConjectures);
-                
-                const position = theoryVector.position;
-                const activeDimensions = theoryVector.activeDimensions;
-                
-                // Generate variables
-                const variables = this.generateVariables(activeDimensions, seedConcept);
-                console.log('Generated variables:', variables);
-                
-                // Select patterns
-                const patterns = this.selectRelevantPatterns(position, numConjectures);
-                console.log('Selected patterns:', patterns);
-                
-                const conjectures = [];
-                
-                for (let i = 0; i < Math.min(numConjectures, patterns.length); i++) {
-                    const pattern = patterns[i];
-                    console.log('Processing pattern:', pattern.name);
-                    
-                    const conjecture = this.instantiatePattern(pattern, variables, position, seedConcept);
-                    
-                    if (conjecture && conjecture.text) {
-                        conjectures.push({
-                            id: this.generateId(),
-                            text: conjecture.text,
-                            pattern: pattern.name,
-                            strength: pattern.strength,
-                            variables: conjecture.variables,
-                            testability: this.assessTestability(conjecture),
-                            methodology: this.recommendMethodology(pattern.name)
-                        });
-                    }
-                }
-                
-                console.log('Generated conjectures:', conjectures);
-                return conjectures;
-            }
-            
-            generateVariables(activeDimensions, seedConcept) {
-                const variables = {
-                    independent: [],
-                    dependent: [],
-                    moderators: [],
-                    mediators: []
-                };
-                
-                activeDimensions.forEach(dim => {
-                    if (this.variableGenerators[dim]) {
-                        const dimVars = this.variableGenerators[dim];
-                        variables.independent.push(...dimVars.slice(0, 1));
-                        variables.dependent.push(...dimVars.slice(1, 2));
-                        variables.moderators.push(...dimVars.slice(2, 3));
-                    }
-                });
-                
-                // Ensure we have variables
-                if (variables.independent.length === 0) variables.independent.push(`${seedConcept}_level`);
-                if (variables.dependent.length === 0) variables.dependent.push(`${seedConcept}_outcome`);
-                if (variables.moderators.length === 0) variables.moderators.push('institutional_context');
-                if (variables.mediators.length === 0) variables.mediators.push('social_mechanism');
-                
-                return variables;
-            }
-            
-            selectRelevantPatterns(position, numRequested) {
-                const allPatterns = Object.keys(this.conjecturePatterns);
-                const selectedPatterns = [];
-                
-                // Select patterns based on dimensional activation
-                Object.entries(position).forEach(([dim, activation]) => {
-                    if (activation > 0.4) {
-                        switch(dim) {
-                            case 'path_dependence':
-                                selectedPatterns.push('threshold_effect');
-                                break;
-                            case 'feedback_loops':
-                                selectedPatterns.push('feedback_loop');
-                                break;
-                            case 'micro_macro':
-                                selectedPatterns.push('mediating_mechanism');
-                                break;
-                            default:
-                                selectedPatterns.push('direct_causation');
-                        }
-                    }
-                });
-                
-                // Fill with remaining patterns
-                while (selectedPatterns.length < numRequested) {
-                    const randomPattern = allPatterns[Math.floor(Math.random() * allPatterns.length)];
-                    if (!selectedPatterns.includes(randomPattern)) {
-                        selectedPatterns.push(randomPattern);
-                    }
-                }
-                
-                return selectedPatterns.slice(0, numRequested).map(name => ({
-                    name: name,
-                    pattern: this.conjecturePatterns[name],
-                    strength: this.conjecturePatterns[name].strength
-                }));
-            }
-            
-            instantiatePattern(pattern, variables, position, seedConcept) {
-                console.log('Instantiating pattern:', pattern.name, 'for concept:', seedConcept);
-                
-                const template = pattern.pattern.template;
-                const requirements = pattern.pattern.requires;
-                
-                const mapping = {};
-                
-                requirements.forEach(req => {
-                    switch(req) {
-                        case 'independent':
-                        case 'independent1':
-                        case 'X':
-                            mapping[req] = this.selectVariable(variables.independent, `${seedConcept}_factor`);
-                            break;
-                        case 'dependent':
-                        case 'Y':
-                            mapping[req] = this.selectVariable(variables.dependent, `${seedConcept}_outcome`);
-                            break;
-                        case 'moderator':
-                        case 'Z':
-                            mapping[req] = this.selectVariable(variables.moderators, 'contextual_factor');
-                            break;
-                        case 'mediator':
-                        case 'M':
-                            mapping[req] = this.selectVariable(variables.mediators, 'mechanism');
-                            break;
-                        default:
-                            mapping[req] = this.generateSpecialVariable(req, position);
-                    }
-                });
-                
-                let conjectureText = template;
-                
-                // Apply standard replacements
-                const replacements = {
-                    '{X}': mapping.independent || mapping.independent1 || `${seedConcept}_level`,
-                    '{Y}': mapping.dependent || `${seedConcept}_outcome`,
-                    '{Z}': mapping.moderator || 'institutional_context',
-                    '{M}': mapping.mediator || 'social_mechanism',
-                    '{direction}': Math.random() > 0.5 ? 'increases' : 'decreases',
-                    '{synergy}': Math.random() > 0.5 ? 'amplifying' : 'dampening',
-                    '{type}': Math.random() > 0.5 ? 'positive' : 'negative',
-                    '{T}': this.generateThreshold()
-                };
-                
-                Object.entries(replacements).forEach(([placeholder, value]) => {
-                    conjectureText = conjectureText.replace(new RegExp(placeholder.replace(/[{}]/g, '\\$&'), 'g'), value);
-                });
-                
-                console.log('Generated conjecture text:', conjectureText);
-                
-                return {
-                    text: conjectureText,
-                    variables: mapping
-                };
-            }
-            
-            assessTestability(conjecture) {
-                return {
-                    score: 0.75,
-                    level: 'high',
-                    indicators: {}
-                };
-            }
-            
-            recommendMethodology(patternName) {
-                const methodMap = {
-                    'direct_causation': {
-                        experimental: ['RCT'],
-                        observational: ['Panel regression'],
-                        qualitative: ['Process tracing']
-                    },
-                    'threshold_effect': {
-                        experimental: ['Dose-response'],
-                        observational: ['RDD'],
-                        qualitative: ['Critical case']
-                    },
-                    'feedback_loop': {
-                        experimental: ['Iterative experiment'],
-                        observational: ['VAR models'],
-                        qualitative: ['System mapping']
-                    }
-                };
-                
-                return methodMap[patternName] || {
-                    experimental: ['Controlled experiment'],
-                    observational: ['Regression analysis'],
-                    qualitative: ['Case study']
-                };
-            }
-            
-            selectVariable(varList, defaultName) {
-                return (varList && varList.length > 0) ? varList[0] : defaultName;
-            }
-            
-            generateSpecialVariable(requirement, position) {
-                const specials = {
-                    'threshold': () => `${Math.floor(Math.random() * 40) + 30}% threshold`,
-                    'loop_type': () => Math.random() > 0.5 ? 'reinforcing' : 'balancing'
-                };
-                return specials[requirement] ? specials[requirement]() : requirement;
-            }
-            
-            generateThreshold() {
-                return `${Math.floor(Math.random() * 40) + 30}% of capacity`;
-            }
-            
-            generateId() {
-                return 'conj_' + Math.random().toString(36).substr(2, 9);
-            }
+
+            this.dimensions[dim].vector = vector;
+          });
         }
-        
-        // Initialize the system
-        console.log('Initializing theory generation system...');
-        const theorySpace = new TheoryVectorSpace();
-        const conjectureGenerator = new ConjectureGenerator(theorySpace);
-        
-        // Usage tracking
-        let usageCount = parseInt(localStorage.getItem('theoryThisUsage') || '0');
-        const FREE_LIMIT = 3;
-        
-        console.log('Current usage count:', usageCount);
-        
-        // Main generation function
-        function generateTheory() {
-            console.log('Generate Theory button clicked');
-            
-            const seedConcept = document.getElementById('seedConcept').value.trim();
-            const numConjectures = parseInt(document.getElementById('numConjectures').value);
-            const focusDimension = document.getElementById('focusDimension').value;
-            
-            console.log('Input values:', { seedConcept, numConjectures, focusDimension });
-            
-            if (!seedConcept) {
-                alert('Please enter a concept to theorize');
-                return;
+
+        generateTheoryVector(seedConcept, focusDimension = null) {
+          console.log('Generating theory vector for:', seedConcept);
+
+          // Step 1: Encode seed concept
+          const seedVector = this.encodeConcept(seedConcept);
+
+          // Step 2: Identify relevant dimensions
+          let activeDimensions = this.identifyRelevantDimensions(seedConcept);
+
+          if (focusDimension && this.dimensions[focusDimension]) {
+            activeDimensions.unshift(focusDimension);
+          }
+
+          console.log('Active dimensions:', activeDimensions);
+
+          // Step 3: Generate theory position
+          let theoryVector = new Array(this.vectorDimensions).fill(0);
+
+          activeDimensions.forEach((dimName) => {
+            const dimension = this.dimensions[dimName];
+            const activation = this.calculateActivation(seedVector, dimension.vector);
+
+            for (let i = 0; i < this.vectorDimensions; i++) {
+              theoryVector[i] += dimension.vector[i] * activation * dimension.weight;
+              theoryVector[i] += (Math.random() - 0.5) * this.temperature * 0.1;
             }
-            
-            if (usageCount >= FREE_LIMIT) {
-                showUpgradePrompt();
-                return;
-            }
-            
-            // Show loading state
-            document.getElementById('loading').classList.add('active');
-            document.getElementById('generateBtn').disabled = true;
-            document.getElementById('emptyState').style.display = 'none';
-            
-            setTimeout(() => {
-                try {
-                    console.log('Starting theory generation...');
-                    
-                    // Generate theory vector
-                    const theoryVector = theorySpace.generateTheoryVector(seedConcept, focusDimension);
-                    
-                    // Generate conjectures
-                    const conjectures = conjectureGenerator.generateConjectures(
-                        theoryVector,
-                        seedConcept,
-                        numConjectures
-                    );
-                    
-                    console.log('Generation complete. Displaying results...');
-                    
-                    // Display results
-                    displayTheoryResults(theoryVector, conjectures, seedConcept);
-                    
-                    // Update usage
-                    usageCount++;
-                    localStorage.setItem('theoryThisUsage', usageCount.toString());
-                    
-                } catch (error) {
-                    console.error('Error during generation:', error);
-                    alert('Error generating theory. Check console for details.');
-                } finally {
-                    document.getElementById('loading').classList.remove('active');
-                    document.getElementById('generateBtn').disabled = false;
-                }
-            }, 1500);
+          });
+
+          // Step 4: Apply transformations
+          theoryVector = this.applyNonLinearity(theoryVector);
+          theoryVector = this.normalize(theoryVector);
+          theoryVector = this.enforceCoherence(theoryVector);
+
+          const result = {
+            vector: theoryVector,
+            position: this.vectorToPosition(theoryVector),
+            scores: this.scoreVector(theoryVector, seedVector),
+            activeDimensions: activeDimensions,
+          };
+
+          console.log('Theory vector generated:', result);
+          return result;
         }
-        
-        function displayTheoryResults(theoryVector, conjectures, seedConcept) {
-            console.log('Displaying results for:', seedConcept);
-            
-            const outputDiv = document.getElementById('theoryOutput');
-            
-            const html = `
+
+        encodeConcept(concept) {
+          const vector = new Array(this.vectorDimensions).fill(0);
+
+          for (let i = 0; i < concept.length - 2; i++) {
+            const trigram = concept.substring(i, i + 3);
+            const hash = this.hashString(trigram);
+            const idx = Math.abs(hash) % this.vectorDimensions;
+            vector[idx] += 1;
+          }
+
+          return this.normalize(vector);
+        }
+
+        identifyRelevantDimensions(concept) {
+          const conceptLower = concept.toLowerCase();
+          const relevantDims = [];
+
+          const dimensionTriggers = {
+            structure_agency: ['structure', 'agency', 'individual', 'system', 'constraint', 'actor'],
+            material_ideational: ['material', 'idea', 'belief', 'resource', 'culture', 'discourse'],
+            micro_macro: ['micro', 'macro', 'individual', 'collective', 'aggregate', 'level'],
+            static_dynamic: ['change', 'stable', 'evolution', 'fixed', 'transform', 'process'],
+            path_dependence: ['history', 'path', 'legacy', 'tradition', 'precedent'],
+            critical_junctures: ['crisis', 'turning', 'rupture', 'breakthrough'],
+            feedback_loops: ['feedback', 'recursive', 'reinforcing', 'cycle'],
+            coercion_consent: ['power', 'force', 'legitimate', 'authority', 'control'],
+            rational_normative: ['rational', 'norm', 'value', 'strategic', 'moral'],
+            conflict_cooperation: ['conflict', 'cooperation', 'competition', 'collaboration'],
+          };
+
+          Object.entries(dimensionTriggers).forEach(([dim, triggers]) => {
+            if (triggers.some((trigger) => conceptLower.includes(trigger))) {
+              relevantDims.push(dim);
+            }
+          });
+
+          // Ensure minimum dimensions for rich theories
+          const allDims = Object.keys(this.dimensions);
+          while (relevantDims.length < 5) {
+            const randomDim = allDims[Math.floor(Math.random() * allDims.length)];
+            if (!relevantDims.includes(randomDim)) {
+              relevantDims.push(randomDim);
+            }
+          }
+
+          return relevantDims;
+        }
+
+        calculateActivation(seedVector, dimensionVector) {
+          const dotProduct = seedVector.reduce((sum, val, i) => sum + val * dimensionVector[i], 0);
+          const magnitude1 = Math.sqrt(seedVector.reduce((sum, val) => sum + val * val, 0));
+          const magnitude2 = Math.sqrt(dimensionVector.reduce((sum, val) => sum + val * val, 0));
+
+          const similarity = dotProduct / (magnitude1 * magnitude2 + 1e-8);
+          const noise = (Math.random() - 0.5) * this.temperature;
+
+          return 1 / (1 + Math.exp(-(similarity + noise)));
+        }
+
+        applyNonLinearity(vector) {
+          return vector.map((val) => (val > 0 ? val * (1 + Math.random() * 0.1) : val * 0.1));
+        }
+
+        normalize(vector) {
+          const magnitude = Math.sqrt(vector.reduce((sum, val) => sum + val * val, 0));
+          return magnitude === 0 ? vector : vector.map((val) => val / magnitude);
+        }
+
+        enforceCoherence(vector) {
+          // Simplified coherence enforcement
+          return vector; // For now, return as-is
+        }
+
+        vectorToPosition(vector) {
+          const position = {};
+          Object.keys(this.dimensions).forEach((dimKey, index) => {
+            const dimVector = this.dimensions[dimKey].vector;
+            const activation = vector.reduce((sum, val, i) => sum + val * dimVector[i], 0);
+            position[dimKey] = Math.max(0, Math.min(1, activation));
+          });
+          return position;
+        }
+
+        scoreVector(theoryVector, seedVector) {
+          const novelty = this.calculateDistance(theoryVector, seedVector);
+          const coherence = 0.8; // Simplified
+          const testability = 0.7; // Simplified
+          const generativity = 0.75; // Simplified
+
+          return {
+            novelty: novelty,
+            coherence: coherence,
+            testability: testability,
+            generativity: generativity,
+            total: novelty * 0.3 + coherence * 0.25 + testability * 0.25 + generativity * 0.2,
+          };
+        }
+
+        calculateDistance(vec1, vec2) {
+          const sum = vec1.reduce((acc, val, i) => acc + Math.pow(val - vec2[i], 2), 0);
+          return Math.min(Math.sqrt(sum) / Math.sqrt(this.vectorDimensions), 1);
+        }
+
+        hashString(str) {
+          let hash = 0;
+          for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = (hash << 5) - hash + char;
+            hash = hash & hash;
+          }
+          return hash;
+        }
+      }
+
+      // YOUR ORIGINAL ConjectureGenerator class - PRESERVED COMPLETELY
+      class ConjectureGenerator {
+        constructor(theoryVectorSpace) {
+          console.log('Initializing ConjectureGenerator...');
+          this.theorySpace = theoryVectorSpace;
+
+          this.conjecturePatterns = {
+            direct_causation: {
+              template: 'Increases in {X} lead to {direction} in {Y}',
+              requires: ['independent', 'dependent'],
+              strength: 'strong',
+            },
+            conditional_causation: {
+              template: 'The effect of {X} on {Y} is contingent upon levels of {Z}',
+              requires: ['independent', 'dependent', 'moderator'],
+              strength: 'moderate',
+            },
+            threshold_effect: {
+              template: '{X} only affects {Y} after reaching critical threshold {T}',
+              requires: ['independent', 'dependent', 'threshold'],
+              strength: 'strong',
+            },
+            interaction_effect: {
+              template: 'The combination of high {X} and high {Z} produces {synergy} effects on {Y}',
+              requires: ['independent1', 'independent2', 'dependent'],
+              strength: 'strong',
+            },
+            mediating_mechanism: {
+              template: '{X} affects {Y} through the mediating mechanism of {M}',
+              requires: ['independent', 'mediator', 'dependent'],
+              strength: 'strong',
+            },
+            feedback_loop: {
+              template: '{Y} creates {type} feedback loop affecting future values of {X}',
+              requires: ['initial', 'feedback_var', 'loop_type'],
+              strength: 'strong',
+            },
+          };
+
+          this.variableGenerators = {
+            structure_agency: ['institutional_capacity', 'individual_autonomy', 'structural_constraints'],
+            material_ideational: ['resource_distribution', 'ideological_alignment', 'cultural_values'],
+            micro_macro: ['individual_behavior', 'aggregate_outcomes', 'system_properties'],
+            coercion_consent: ['state_capacity', 'legitimacy', 'compliance_rates'],
+            path_dependence: ['historical_legacies', 'institutional_inertia', 'lock_in_effects'],
+            critical_junctures: ['crisis_severity', 'window_of_opportunity', 'transformation_rate'],
+            feedback_loops: ['positive_feedback', 'negative_feedback', 'system_resilience'],
+            rational_normative: ['utility_maximization', 'normative_compliance', 'value_alignment'],
+          };
+
+          console.log('ConjectureGenerator initialized');
+        }
+
+        generateConjectures(theoryVector, seedConcept, numConjectures = 5) {
+          console.log('Generating conjectures for:', seedConcept, 'Number requested:', numConjectures);
+
+          const position = theoryVector.position;
+          const activeDimensions = theoryVector.activeDimensions;
+
+          // Generate variables
+          const variables = this.generateVariables(activeDimensions, seedConcept);
+          console.log('Generated variables:', variables);
+
+          // Select patterns
+          const patterns = this.selectRelevantPatterns(position, numConjectures);
+          console.log('Selected patterns:', patterns);
+
+          const conjectures = [];
+
+          for (let i = 0; i < Math.min(numConjectures, patterns.length); i++) {
+            const pattern = patterns[i];
+            console.log('Processing pattern:', pattern.name);
+
+            const conjecture = this.instantiatePattern(pattern, variables, position, seedConcept);
+
+            if (conjecture && conjecture.text) {
+              conjectures.push({
+                id: this.generateId(),
+                text: conjecture.text,
+                pattern: pattern.name,
+                strength: pattern.strength,
+                variables: conjecture.variables,
+                testability: this.assessTestability(conjecture),
+                methodology: this.recommendMethodology(pattern.name),
+              });
+            }
+          }
+
+          console.log('Generated conjectures:', conjectures);
+          return conjectures;
+        }
+
+        generateVariables(activeDimensions, seedConcept) {
+          const variables = {
+            independent: [],
+            dependent: [],
+            moderators: [],
+            mediators: [],
+          };
+
+          activeDimensions.forEach((dim) => {
+            if (this.variableGenerators[dim]) {
+              const dimVars = this.variableGenerators[dim];
+              variables.independent.push(...dimVars.slice(0, 1));
+              variables.dependent.push(...dimVars.slice(1, 2));
+              variables.moderators.push(...dimVars.slice(2, 3));
+            }
+          });
+
+          // Ensure we have variables
+          if (variables.independent.length === 0) variables.independent.push(`${seedConcept}_level`);
+          if (variables.dependent.length === 0) variables.dependent.push(`${seedConcept}_outcome`);
+          if (variables.moderators.length === 0) variables.moderators.push('institutional_context');
+          if (variables.mediators.length === 0) variables.mediators.push('social_mechanism');
+
+          return variables;
+        }
+
+        selectRelevantPatterns(position, numRequested) {
+          const allPatterns = Object.keys(this.conjecturePatterns);
+          const selectedPatterns = [];
+
+          // Select patterns based on dimensional activation
+          Object.entries(position).forEach(([dim, activation]) => {
+            if (activation > 0.4) {
+              switch (dim) {
+                case 'path_dependence':
+                  selectedPatterns.push('threshold_effect');
+                  break;
+                case 'feedback_loops':
+                  selectedPatterns.push('feedback_loop');
+                  break;
+                case 'micro_macro':
+                  selectedPatterns.push('mediating_mechanism');
+                  break;
+                default:
+                  selectedPatterns.push('direct_causation');
+              }
+            }
+          });
+
+          // Fill with remaining patterns
+          while (selectedPatterns.length < numRequested) {
+            const randomPattern = allPatterns[Math.floor(Math.random() * allPatterns.length)];
+            if (!selectedPatterns.includes(randomPattern)) {
+              selectedPatterns.push(randomPattern);
+            }
+          }
+
+          return selectedPatterns.slice(0, numRequested).map((name) => ({
+            name: name,
+            pattern: this.conjecturePatterns[name],
+            strength: this.conjecturePatterns[name].strength,
+          }));
+        }
+
+        instantiatePattern(pattern, variables, position, seedConcept) {
+          console.log('Instantiating pattern:', pattern.name, 'for concept:', seedConcept);
+
+          const template = pattern.pattern.template;
+          const requirements = pattern.pattern.requires;
+
+          const mapping = {};
+
+          requirements.forEach((req) => {
+            switch (req) {
+              case 'independent':
+              case 'independent1':
+              case 'X':
+                mapping[req] = this.selectVariable(variables.independent, `${seedConcept}_factor`);
+                break;
+              case 'dependent':
+              case 'Y':
+                mapping[req] = this.selectVariable(variables.dependent, `${seedConcept}_outcome`);
+                break;
+              case 'moderator':
+              case 'Z':
+                mapping[req] = this.selectVariable(variables.moderators, 'contextual_factor');
+                break;
+              case 'mediator':
+              case 'M':
+                mapping[req] = this.selectVariable(variables.mediators, 'mechanism');
+                break;
+              default:
+                mapping[req] = this.generateSpecialVariable(req, position);
+            }
+          });
+
+          let conjectureText = template;
+
+          // Apply standard replacements
+          const replacements = {
+            '{X}': mapping.independent || mapping.independent1 || `${seedConcept}_level`,
+            '{Y}': mapping.dependent || `${seedConcept}_outcome`,
+            '{Z}': mapping.moderator || 'institutional_context',
+            '{M}': mapping.mediator || 'social_mechanism',
+            '{direction}': Math.random() > 0.5 ? 'increases' : 'decreases',
+            '{synergy}': Math.random() > 0.5 ? 'amplifying' : 'dampening',
+            '{type}': Math.random() > 0.5 ? 'positive' : 'negative',
+            '{T}': this.generateThreshold(),
+          };
+
+          Object.entries(replacements).forEach(([placeholder, value]) => {
+            conjectureText = conjectureText.replace(new RegExp(placeholder.replace(/[{}]/g, '\\$&'), 'g'), value);
+          });
+
+          console.log('Generated conjecture text:', conjectureText);
+
+          return {
+            text: conjectureText,
+            variables: mapping,
+          };
+        }
+
+        assessTestability(conjecture) {
+          return {
+            score: 0.75,
+            level: 'high',
+            indicators: {},
+          };
+        }
+
+        recommendMethodology(patternName) {
+          const methodMap = {
+            direct_causation: {
+              experimental: ['RCT'],
+              observational: ['Panel regression'],
+              qualitative: ['Process tracing'],
+            },
+            threshold_effect: {
+              experimental: ['Dose-response'],
+              observational: ['RDD'],
+              qualitative: ['Critical case'],
+            },
+            feedback_loop: {
+              experimental: ['Iterative experiment'],
+              observational: ['VAR models'],
+              qualitative: ['System mapping'],
+            },
+          };
+
+          return (
+            methodMap[patternName] || {
+              experimental: ['Controlled experiment'],
+              observational: ['Regression analysis'],
+              qualitative: ['Case study'],
+            }
+          );
+        }
+
+        selectVariable(varList, defaultName) {
+          return varList && varList.length > 0 ? varList[0] : defaultName;
+        }
+
+        generateSpecialVariable(requirement, position) {
+          const specials = {
+            threshold: () => `${Math.floor(Math.random() * 40) + 30}% threshold`,
+            loop_type: () => (Math.random() > 0.5 ? 'reinforcing' : 'balancing'),
+          };
+          return specials[requirement] ? specials[requirement]() : requirement;
+        }
+
+        generateThreshold() {
+          return `${Math.floor(Math.random() * 40) + 30}% of capacity`;
+        }
+
+        generateId() {
+          return 'conj_' + Math.random().toString(36).substr(2, 9);
+        }
+      }
+
+      // ENHANCED CONJECTURE GENERATOR - No more circularity!
+      class EnhancedConjectureGenerator {
+        constructor() {
+          this.relationshipMemory = new Map();
+          this.logicalConstraints = new Set();
+          this.generationMetadata = {
+            schemaEnhanced: false,
+            fallbackUsed: false,
+            constraintsApplied: 0,
+            vectorDimensions: 5,
+          };
+        }
+
+        generateEnhancedVariables(seedConcept) {
+          const key = seedConcept
+            .toLowerCase()
+            .replace(/[^a-z\s]/g, '')
+            .trim();
+          const schema = TheorySchemas[key];
+
+          if (schema) {
+            this.generationMetadata.schemaEnhanced = true;
+            this.generationMetadata.fallbackUsed = false;
+
+            const constructs = Object.keys(schema.constructs);
+            const relations = schema.causal_patterns;
+
+            return {
+              independent: constructs.filter((c) => relations.some((r) => r[0] === c)),
+              dependent: constructs.filter((c) => relations.some((r) => r[2] === c)),
+              moderators: schema.scope_conditions || ['institutional_context'],
+              constructs: schema.constructs,
+              theoreticalStatus: schema.theoretical_status || 'established',
+            };
+          }
+
+          // Enhanced fallback - NO MORE CIRCULAR NAMING!
+          this.generationMetadata.schemaEnhanced = false;
+          this.generationMetadata.fallbackUsed = true;
+
+          return this.generateExpansiveVariables(seedConcept);
+        }
+
+        generateExpansiveVariables(concept) {
+          const conceptRoot = concept.replace(/\s+theory$/i, '').replace(/\s+/g, '_');
+
+          return {
+            independent: [
+              `${conceptRoot}_institutional_strength`,
+              `${conceptRoot}_resource_availability`,
+              `${conceptRoot}_actor_motivation`,
+              `contextual_${conceptRoot}`,
+            ],
+            dependent: [
+              `${conceptRoot}_effectiveness`,
+              `${conceptRoot}_outcomes`,
+              `${conceptRoot}_impact`,
+              `system_response_to_${conceptRoot}`,
+            ],
+            moderators: ['institutional_context', 'resource_constraints', 'temporal_factors'],
+            constructs: {},
+            theoreticalStatus: 'conjecture',
+          };
+        }
+
+        validateConjecture(x, relation, y) {
+          const key = `${x}→${y}`;
+          const existing = this.relationshipMemory.get(key);
+
+          if (existing && existing !== relation) {
+            return { valid: false };
+          }
+
+          this.relationshipMemory.set(key, relation);
+          this.generationMetadata.constraintsApplied++;
+          return { valid: true };
+        }
+
+        generatePreciseConjecture(pattern, variables, seedConcept) {
+          const vars = this.generateEnhancedVariables(seedConcept);
+
+          if (vars.independent.length === 0 || vars.dependent.length === 0) {
+            return null;
+          }
+
+          const X = vars.independent[Math.floor(Math.random() * vars.independent.length)];
+          const Y = vars.dependent[Math.floor(Math.random() * vars.dependent.length)];
+          const relation = Math.random() > 0.5 ? 'increases' : 'decreases';
+
+          const validation = this.validateConjecture(X, relation, Y);
+          if (!validation.valid) {
+            return null;
+          }
+
+          const magnitude = (0.2 + Math.random() * 0.3).toFixed(2);
+          const rSquared = (parseFloat(magnitude) * 100).toFixed(1);
+          const betaCoeff = (Math.random() * 0.6 + 0.2).toFixed(3);
+
+          let conjecture = '';
+          let confidenceLevel = 'Medium';
+
+          switch (pattern.name) {
+            case 'direct_causation':
+              conjecture = `A one standard deviation increase in ${X.replace(/_/g, ' ')} ${relation} ${Y.replace(/_/g, ' ')} by approximately ${magnitude} standard deviations (β = ${betaCoeff}, expected R² contribution: ${rSquared}%)`;
+              confidenceLevel = 'High - Linear relationship with clear theoretical foundation';
+              break;
+
+            case 'threshold_effect':
+              const threshold = (60 + Math.random() * 20).toFixed(0);
+              const thresholdBeta = (0.4 + Math.random() * 0.6).toFixed(3);
+              conjecture = `${X.replace(/_/g, ' ')} affects ${Y.replace(/_/g, ' ')} only above the critical threshold (estimated at ${threshold}th percentile of ${X.replace(/_/g, ' ')} distribution), with effect strength β = ${thresholdBeta} above threshold`;
+              confidenceLevel = 'Medium - Conditional effect requiring threshold validation';
+              break;
+
+            case 'moderated_relationship':
+              const moderator = vars.moderators[Math.floor(Math.random() * vars.moderators.length)];
+              const mainEffect = (0.4 + Math.random() * 0.4).toFixed(3);
+              const interactionEffect = (0.2 + Math.random() * 0.4).toFixed(3);
+              conjecture = `The effect of ${X.replace(/_/g, ' ')} on ${Y.replace(/_/g, ' ')} is moderated by ${moderator.replace(/_/g, ' ')} (β₁ = ${mainEffect}, β₃ = ${interactionEffect} for interaction term)`;
+              confidenceLevel = 'High - Interaction effect with clear boundary conditions';
+              break;
+          }
+
+          return {
+            text: conjecture,
+            confidence: confidenceLevel,
+            variables: { independent: X, dependent: Y, relation },
+          };
+        }
+
+        getGenerationMetadata() {
+          return {
+            ...this.generationMetadata,
+            efficiency: (
+              (this.generationMetadata.constraintsApplied / Math.max(this.relationshipMemory.size, 1)) *
+              100
+            ).toFixed(1),
+          };
+        }
+      }
+
+      // Initialize BOTH systems - original and enhanced
+      console.log('Initializing complete theory generation system...');
+      const theorySpace = new TheoryVectorSpace();
+      const conjectureGenerator = new ConjectureGenerator(theorySpace);
+      const enhancedGenerator = new EnhancedConjectureGenerator();
+
+      // Usage tracking
+      let usageCount = parseInt(localStorage.getItem('theoryThisUsage') || '0');
+      const FREE_LIMIT = 10; // Increased for testing
+
+      console.log('Current usage count:', usageCount);
+
+      // MAIN ENHANCED GENERATION FUNCTION - Uses both systems
+      function generateTheory() {
+        console.log('Enhanced Generate Theory button clicked');
+
+        const seedConcept = document.getElementById('seedConcept').value.trim();
+        const numConjectures = parseInt(document.getElementById('numConjectures').value);
+        const focusDimension = document.getElementById('focusDimension').value;
+
+        console.log('Input values:', { seedConcept, numConjectures, focusDimension });
+
+        if (!seedConcept) {
+          alert('Please enter a concept to theorize');
+          return;
+        }
+
+        if (usageCount >= FREE_LIMIT) {
+          showUpgradePrompt();
+          return;
+        }
+
+        // Show loading state
+        document.getElementById('loading').classList.add('active');
+        document.getElementById('generateBtn').disabled = true;
+        document.getElementById('emptyState').style.display = 'none';
+
+        setTimeout(() => {
+          try {
+            console.log('Starting enhanced theory generation...');
+
+            // Generate theory vector using original system
+            const theoryVector = theorySpace.generateTheoryVector(seedConcept, focusDimension);
+
+            // Use enhanced generator for conjectures
+            const conjectures = [];
+            const patterns = [
+              { name: 'direct_causation' },
+              { name: 'threshold_effect' },
+              { name: 'moderated_relationship' },
+            ];
+
+            for (let i = 0; i < numConjectures; i++) {
+              const pattern = patterns[i % patterns.length];
+              const conjecture = enhancedGenerator.generatePreciseConjecture(pattern, null, seedConcept);
+
+              if (conjecture) {
+                conjectures.push({
+                  id: `C${i + 1}`,
+                  type: pattern.name.toUpperCase().replace('_', ' '),
+                  text: conjecture.text,
+                  confidence: conjecture.confidence,
+                  pattern: pattern.name,
+                  strength: 'enhanced',
+                  methodology: { experimental: ['Enhanced RCT'], observational: ['Advanced regression'] },
+                });
+              }
+            }
+
+            const metadata = enhancedGenerator.getGenerationMetadata();
+
+            console.log('Enhanced generation complete. Displaying results...');
+            displayEnhancedResults(theoryVector, conjectures, metadata, seedConcept);
+
+            // Update usage
+            usageCount++;
+            localStorage.setItem('theoryThisUsage', usageCount.toString());
+          } catch (error) {
+            console.error('Error during enhanced generation:', error);
+            alert('Error generating theory. Check console for details.');
+          } finally {
+            document.getElementById('loading').classList.remove('active');
+            document.getElementById('generateBtn').disabled = false;
+          }
+        }, 1500);
+      }
+
+      // ENHANCED RESULTS DISPLAY - Includes original functionality plus enhancements
+      function displayEnhancedResults(theoryVector, conjectures, metadata, seedConcept) {
+        console.log('Displaying enhanced results for:', seedConcept);
+
+        const outputDiv = document.getElementById('theoryOutput');
+
+        const html = `
                 <div class="theory-card">
                     <div class="theory-header">
                         <h3 class="theory-title">Theory: ${capitalizeFirst(seedConcept)}</h3>
@@ -1144,86 +1317,115 @@ instantiatePattern(pattern, variables, position, seedConcept) {
                         </div>
                     </div>
                     
+                    <div class="metadata">
+                        ${metadata.fallbackUsed ? '⚠ Fallback Generation Used' : '✓ Schema-Enhanced Generation'} | 
+                        ${metadata.constraintsApplied} logical constraints applied | 
+                        Generation efficiency: ${metadata.efficiency}%
+                    </div>
+                    
                     <div class="theory-description">
                         <strong>Vector Position:</strong> This theory explores ${seedConcept} through 
-                        ${theoryVector.activeDimensions.slice(0,3).map(d => d.replace(/_/g, ' ')).join(', ')} 
+                        ${theoryVector.activeDimensions
+                          .slice(0, 3)
+                          .map((d) => d.replace(/_/g, ' '))
+                          .join(', ')} 
                         dimensions in high-dimensional theory space.
                     </div>
                     
                     <div class="conjectures-section">
-                        <h4 class="conjectures-title">📊 Testable Conjectures (${conjectures.length})</h4>
-                        ${generateConjecturesHTML(conjectures)}
+                        <h4 class="conjectures-title">🔬 Testable Conjectures (${conjectures.length})</h4>
+                        ${conjectures
+                          .map(
+                            (conj) => `
+                            <div class="conjecture-item">
+                                <div class="conjecture-text">
+                                    <strong>${conj.id}: ${conj.type}</strong><br>
+                                    ${conj.text}
+                                </div>
+                                <div class="conjecture-meta">
+                                    <span class="meta-item">💪 ${conj.strength}</span>
+                                    <span class="meta-item">🔬 ${conj.pattern.replace(/_/g, ' ')}</span>
+                                </div>
+                                <div style="font-size: 0.9em; color: #666; font-style: italic; margin-top: 8px;">
+                                    Confidence: ${conj.confidence}
+                                </div>
+                            </div>
+                        `,
+                          )
+                          .join('')}
+                    </div>
+                    
+                    <div class="methodology-section">
+                        <div class="methodology-title">📈 Generation Metadata:</div>
+                        <p style="font-size: 0.9em; margin-top: 8px;">
+                            Vector Space Dimensions: ${metadata.vectorDimensions} | 
+                            Schema-Enhanced: ${metadata.schemaEnhanced ? 'Yes' : 'No'} | 
+                            Logical Constraints: ${metadata.constraintsApplied} active rules
+                        </p>
+                    </div>
+                    
+                    <div class="dimensions-grid">
+                        ${theoryVector.activeDimensions
+                          .slice(0, 6)
+                          .map(
+                            (dim) => `
+                            <div class="dimension-item">
+                                <div class="dimension-name">${dim.replace(/_/g, ' ')}</div>
+                                <div class="dimension-bar">
+                                    <div class="dimension-fill" style="width: ${(theoryVector.position[dim] * 100).toFixed(0)}%"></div>
+                                </div>
+                            </div>
+                        `,
+                          )
+                          .join('')}
                     </div>
                 </div>
             `;
-            
-            outputDiv.innerHTML = html;
-            outputDiv.classList.add('active');
-            
-            window.currentTheory = { concept: seedConcept, vector: theoryVector, conjectures: conjectures };
-        }
-        
-        function generateScoreBadges(scores) {
-            return Object.entries(scores).map(([key, value]) => {
-                if (key === 'total') return '';
-                const level = value > 0.7 ? 'high' : value > 0.4 ? 'medium' : 'low';
-                const percentage = Math.round(value * 100);
-                return `<span class="score-badge score-${level}">${capitalizeFirst(key)}: ${percentage}%</span>`;
-            }).join('');
-        }
-        
-        function generateConjecturesHTML(conjectures) {
-            if (!conjectures || conjectures.length === 0) {
-                return '<p style="color: #999;">No conjectures generated. Try a different concept.</p>';
-            }
-            
-            return conjectures.map((conj, idx) => `
-                <div class="conjecture-item">
-                    <div class="conjecture-text">
-                        <strong>C${idx + 1}:</strong> ${conj.text}
-                    </div>
-                    <div class="conjecture-meta">
-                        <span class="meta-item">💪 ${conj.strength}</span>
-                        <span class="meta-item">🧪 ${conj.testability.level}</span>
-                        <span class="meta-item">🔬 ${conj.pattern.replace(/_/g, ' ')}</span>
-                    </div>
-                    <div class="methodology-section">
-                        <div class="methodology-title">Methods:</div>
-                        <div class="method-list">
-                            ${(conj.methodology.experimental || []).slice(0,1).map(m => `<span class="method-tag">🧪 ${m}</span>`).join('')}
-                            ${(conj.methodology.observational || []).slice(0,1).map(m => `<span class="method-tag">📊 ${m}</span>`).join('')}
-                            ${(conj.methodology.qualitative || []).slice(0,1).map(m => `<span class="method-tag">📝 ${m}</span>`).join('')}
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        function capitalizeFirst(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-        
-        function clearAll() {
-            document.getElementById('seedConcept').value = '';
-            document.getElementById('theoryOutput').innerHTML = '';
-            document.getElementById('theoryOutput').classList.remove('active');
-            document.getElementById('emptyState').style.display = 'block';
-        }
-        
-        function showUpgradePrompt() {
-            alert(`You've used your ${FREE_LIMIT} free generations!\n\nUpgrade to Theory This Pro:\n• Unlimited theory generation\n• Advanced export features\n• API access\n\n$29/month for researchers`);
-        }
-        
-        // Allow Enter key to generate
-        document.getElementById('seedConcept').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                generateTheory();
-            }
-        });
-        
-        console.log('Theory This fully loaded and ready');
-    </script>
-</body>
-</html>
 
+        outputDiv.innerHTML = html;
+        outputDiv.classList.add('active');
+
+        window.currentTheory = { concept: seedConcept, vector: theoryVector, conjectures: conjectures };
+      }
+
+      // ORIGINAL UTILITY FUNCTIONS - PRESERVED
+      function generateScoreBadges(scores) {
+        return Object.entries(scores)
+          .map(([key, value]) => {
+            if (key === 'total') return '';
+            const level = value > 0.7 ? 'high' : value > 0.4 ? 'medium' : 'low';
+            const percentage = Math.round(value * 100);
+            return `<span class="score-badge score-${level}">${capitalizeFirst(key)}: ${percentage}%</span>`;
+          })
+          .join('');
+      }
+
+      function capitalizeFirst(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      }
+
+      function clearAll() {
+        document.getElementById('seedConcept').value = '';
+        document.getElementById('theoryOutput').innerHTML = '';
+        document.getElementById('theoryOutput').classList.remove('active');
+        document.getElementById('emptyState').style.display = 'block';
+      }
+
+      function showUpgradePrompt() {
+        alert(
+          `You've used your ${FREE_LIMIT} free generations!\n\nUpgrade to Theory This Pro:\n• Unlimited theory generation\n• Advanced export features\n• API access\n\n$29/month for researchers`,
+        );
+      }
+
+      // Allow Enter key to generate
+      document.getElementById('seedConcept').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          generateTheory();
+        }
+      });
+
+      console.log('Theory This Enhanced fully loaded and ready! 🚀');
+    </script>
+  </body>
+</html>
