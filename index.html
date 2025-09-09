@@ -247,9 +247,10 @@
       .vector-space-visualization {
         margin: 20px 0;
         padding: 20px;
-        background: #f8f9fa;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
         border-radius: 15px;
         border: 1px solid #e9ecef;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
       }
 
       .vector-space-title {
@@ -264,10 +265,15 @@
       .vector-canvas {
         width: 100%;
         height: 400px;
-        border: 1px solid #dee2e6;
+        border: 2px solid #dee2e6;
         border-radius: 8px;
-        background: white;
-        cursor: pointer;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        cursor: crosshair;
+        transition: border-color 0.3s ease;
+      }
+
+      .vector-canvas:hover {
+        border-color: #667eea;
       }
 
       .conjectures-section {
@@ -286,45 +292,61 @@
       .conjecture-item {
         background: #f8f9fa;
         border-radius: 10px;
-        padding: 15px;
-        margin-bottom: 15px;
+        padding: 18px;
+        margin-bottom: 18px;
         border: 1px solid #e9ecef;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       }
 
       .conjecture-text {
         font-weight: 500;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
         color: #2c3e50;
         line-height: 1.5;
       }
 
       .operationalization-box {
-        background: #e8f5e8;
+        background: linear-gradient(135deg, #e8f5e8 0%, #f0fff0 100%);
         padding: 12px;
         margin: 10px 0;
         border-radius: 8px;
         border-left: 4px solid #28a745;
+        font-size: 0.9em;
+        line-height: 1.4;
+      }
+
+      .hypothesis-confidence {
+        font-size: 0.85em;
+        color: #666;
+        font-style: italic;
+        margin-top: 8px;
+        padding: 8px;
+        background: #fff3e0;
+        border-radius: 5px;
+        border-left: 3px solid #ffc107;
       }
 
       .methodology-alignment {
         margin-top: 20px;
-        padding: 15px;
+        padding: 18px;
         background: linear-gradient(135deg, #e8f5e8 0%, #f0fff0 100%);
-        border-radius: 10px;
+        border-radius: 12px;
         border-left: 4px solid #28a745;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
       }
 
       .methodology-alignment h4 {
-        margin-bottom: 12px;
+        margin-bottom: 15px;
         color: #155724;
-        font-size: 1em;
+        font-size: 1.1em;
+        font-weight: bold;
       }
 
       .method-recommendations {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 15px;
-        margin-top: 10px;
+        margin-top: 12px;
       }
 
       @media (max-width: 768px) {
@@ -335,63 +357,75 @@
 
       .method-category {
         background: white;
-        padding: 12px;
-        border-radius: 8px;
+        padding: 15px;
+        border-radius: 10px;
         border: 1px solid #c3e6cb;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       }
 
       .method-category h5 {
-        margin-bottom: 8px;
+        margin-bottom: 10px;
         color: #155724;
-        font-size: 0.9em;
+        font-size: 0.95em;
         font-weight: bold;
+        border-bottom: 2px solid #28a745;
+        padding-bottom: 5px;
       }
 
       .method-suggestion {
         background: #f8f9fa;
         padding: 8px 12px;
-        margin: 6px 0;
+        margin: 8px 0;
         border-radius: 6px;
         font-size: 0.85em;
         border-left: 3px solid #28a745;
         line-height: 1.3;
+        transition: background-color 0.2s ease;
+      }
+
+      .method-suggestion:hover {
+        background: #e9ecef;
       }
 
       .research-pipeline {
-        margin-top: 20px;
-        padding: 15px;
+        margin-top: 25px;
+        padding: 18px;
         background: linear-gradient(135deg, #fff3e0 0%, #ffeaa7 100%);
-        border-radius: 10px;
+        border-radius: 12px;
         border-left: 4px solid #f39c12;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
       }
 
       .research-pipeline h4 {
-        margin-bottom: 12px;
+        margin-bottom: 15px;
         color: #d68910;
-        font-size: 1em;
+        font-size: 1.1em;
+        font-weight: bold;
       }
 
       .pipeline-step {
         display: flex;
         align-items: center;
         gap: 12px;
-        margin: 8px 0;
-        padding: 10px;
+        margin: 10px 0;
+        padding: 12px;
         background: white;
-        border-radius: 6px;
+        border-radius: 8px;
         font-size: 0.9em;
-        transition: transform 0.2s ease;
+        transition: all 0.2s ease;
+        border: 1px solid #f8d7da;
       }
 
       .pipeline-step:hover {
         transform: translateX(5px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
       }
 
       .step-number {
-        background: #f39c12;
+        background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
         color: white;
-        width: 28px;
-        height: 28px;
+        width: 30px;
+        height: 30px;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -399,6 +433,29 @@
         font-weight: bold;
         font-size: 0.9em;
         flex-shrink: 0;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      .answer-this-link {
+        color: #f39c12;
+        text-decoration: underline;
+        font-weight: bold;
+        transition: all 0.2s ease;
+      }
+
+      .answer-this-link:hover {
+        color: #e67e22;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+
+      .research-tip {
+        margin-top: 15px;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 8px;
+        font-size: 0.9em;
+        border-left: 4px solid #17a2b8;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
       }
 
       .methodology-section {
@@ -417,22 +474,28 @@
 
       .dimensions-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 10px;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
         margin-top: 20px;
       }
 
       .dimension-item {
-        background: #f7fafc;
-        padding: 8px;
-        border-radius: 6px;
+        background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        padding: 12px;
+        border-radius: 8px;
         font-size: 0.8em;
+        border: 1px solid #e2e8f0;
+        transition: transform 0.2s ease;
+      }
+
+      .dimension-item:hover {
+        transform: translateY(-2px);
       }
 
       .dimension-name {
         font-weight: 600;
         color: #4a5568;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
       }
 
       .dimension-bar {
@@ -440,12 +503,20 @@
         background: #e2e8f0;
         border-radius: 3px;
         overflow: hidden;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
       }
 
       .dimension-fill {
         height: 100%;
         background: linear-gradient(90deg, #667eea, #764ba2);
-        transition: width 0.3s ease;
+        transition: width 0.5s ease-out;
+      }
+
+      .dimension-activation {
+        font-size: 0.7em;
+        color: #666;
+        margin-top: 4px;
+        text-align: center;
       }
 
       .stats-bar {
@@ -505,17 +576,6 @@
           transform: translateX(0);
         }
       }
-
-      .answer-this-link {
-        color: #f39c12;
-        text-decoration: underline;
-        font-weight: bold;
-        transition: color 0.2s ease;
-      }
-
-      .answer-this-link:hover {
-        color: #e67e22;
-      }
     </style>
   </head>
   <body>
@@ -545,13 +605,13 @@
 
       <div class="main-content">
         <div class="input-panel">
-          <h2>Generate Theory <span class="price-badge">Enhanced Preview</span></h2>
+          <h2>Generate Theory <span class="price-badge">Revolutionary Preview</span></h2>
 
           <div class="input-group">
             <label for="seedConcept">Seed Concept</label>
             <textarea
               id="seedConcept"
-              placeholder="Enter your research concept (e.g., 'clientelism theory', 'selectorate theory', 'relative deprivation')"
+              placeholder="Enter your research concept (e.g., 'clientelism theory', 'selectorate theory', 'democratic peace theory')"
             ></textarea>
           </div>
 
@@ -587,14 +647,14 @@
           <div class="loading" id="loading">
             <div>🧠 Exploring theory vector space...</div>
             <div style="margin-top: 10px; font-size: 0.9em; opacity: 0.8">
-              Generating testable hypotheses...
+              Generating testable research hypotheses...
             </div>
           </div>
         </div>
 
         <div class="output-panel">
           <div id="theoryOutput" class="theory-output">
-            <!-- Theory results will be inserted here -->
+            <!-- Revolutionary theory results will be inserted here -->
           </div>
 
           <div id="emptyState" style="text-align: center; padding: 60px 20px; color: #999">
@@ -607,9 +667,9 @@
     </div>
 
     <script>
-      console.log('Theory This: Revolutionary Enhanced Version Loading...');
+      console.log('🚀 Theory This: Revolutionary Enhanced Version Loading...');
 
-      // ENHANCED THEORY SCHEMAS - Semantic foundation for major social science theories
+      // ENHANCED THEORY SCHEMAS - Complete semantic foundation
       const TheorySchemas = {
         'relative deprivation': {
           constructs: {
@@ -707,10 +767,10 @@
         },
       };
 
-      // ORIGINAL 25-DIMENSIONAL THEORY VECTOR SPACE CLASS - Enhanced with Theory Maturity Assessment
+      // ORIGINAL 25-DIMENSIONAL THEORY VECTOR SPACE - Enhanced with Revolutionary Features
       class TheoryVectorSpace {
         constructor() {
-          console.log('Initializing Enhanced TheoryVectorSpace...');
+          console.log('🔬 Initializing Revolutionary TheoryVectorSpace...');
 
           // 25 fundamental theoretical dimensions - the core intellectual property
           this.dimensions = {
@@ -754,14 +814,11 @@
             innovation_tradition: { weight: 1.0, vector: [], description: 'Novel solutions vs established practices' },
           };
 
-          // Vector space parameters
           this.vectorDimensions = 768;
           this.temperature = 0.7;
-
-          // Initialize dimensional vectors
           this.initializeDimensionalVectors();
 
-          console.log('TheoryVectorSpace enhanced with', Object.keys(this.dimensions).length, 'dimensions');
+          console.log('✅ TheoryVectorSpace revolutionary features enabled');
         }
 
         initializeDimensionalVectors() {
@@ -782,8 +839,6 @@
         }
 
         generateTheoryVector(seedConcept, focusDimension = null) {
-          console.log('Generating theory vector for:', seedConcept);
-
           const seedVector = this.encodeConcept(seedConcept);
           let activeDimensions = this.identifyRelevantDimensions(seedConcept);
 
@@ -805,16 +860,13 @@
 
           theoryVector = this.applyNonLinearity(theoryVector);
           theoryVector = this.normalize(theoryVector);
-          theoryVector = this.enforceCoherence(theoryVector);
 
-          const result = {
+          return {
             vector: theoryVector,
             position: this.vectorToPosition(theoryVector),
             scores: this.scoreVector(theoryVector, seedVector, seedConcept),
             activeDimensions: activeDimensions,
           };
-
-          return result;
         }
 
         encodeConcept(concept) {
@@ -835,16 +887,12 @@
           const relevantDims = [];
 
           const dimensionTriggers = {
-            structure_agency: ['structure', 'agency', 'individual', 'system', 'constraint', 'actor', 'clientelism'],
+            structure_agency: ['structure', 'agency', 'individual', 'system', 'clientelism', 'actor'],
             material_ideational: ['material', 'idea', 'belief', 'resource', 'culture', 'discourse'],
-            micro_macro: ['micro', 'macro', 'individual', 'collective', 'aggregate', 'level'],
-            static_dynamic: ['change', 'stable', 'evolution', 'fixed', 'transform', 'process'],
-            path_dependence: ['history', 'path', 'legacy', 'tradition', 'precedent'],
-            critical_junctures: ['crisis', 'turning', 'rupture', 'breakthrough'],
-            feedback_loops: ['feedback', 'recursive', 'reinforcing', 'cycle'],
-            coercion_consent: ['power', 'force', 'legitimate', 'authority', 'control'],
+            micro_macro: ['micro', 'macro', 'individual', 'collective', 'aggregate'],
+            coercion_consent: ['power', 'force', 'legitimate', 'authority', 'control', 'peace'],
+            conflict_cooperation: ['conflict', 'cooperation', 'peace', 'war', 'competition'],
             rational_normative: ['rational', 'norm', 'value', 'strategic', 'moral'],
-            conflict_cooperation: ['conflict', 'cooperation', 'competition', 'collaboration'],
           };
 
           Object.entries(dimensionTriggers).forEach(([dim, triggers]) => {
@@ -884,10 +932,6 @@
           return magnitude === 0 ? vector : vector.map((val) => val / magnitude);
         }
 
-        enforceCoherence(vector) {
-          return vector;
-        }
-
         vectorToPosition(vector) {
           const position = {};
           Object.keys(this.dimensions).forEach((dimKey) => {
@@ -898,12 +942,12 @@
           return position;
         }
 
-        // ENHANCED SCORING SYSTEM - This fixes the clientelism problem!
+        // ENHANCED SCORING SYSTEM - Fixes clientelism and peace theory assessment
         scoreVector(theoryVector, seedVector, seedConcept) {
           const novelty = this.calculateDistance(theoryVector, seedVector);
-          const coherence = seedConcept ? this.assessTheoreticalCoherence(seedConcept) : 0.8;
-          const testability = seedConcept ? this.assessTestability(seedConcept) : 0.7;
-          const generativity = seedConcept ? this.assessGenerativity(seedConcept) : 0.75;
+          const coherence = this.assessTheoreticalCoherence(seedConcept);
+          const testability = this.assessTestability(seedConcept);
+          const generativity = this.assessGenerativity(seedConcept);
 
           return {
             novelty: novelty,
@@ -914,31 +958,28 @@
           };
         }
 
-        // CLIENTELISM FIX: This function will score clientelism as 20-50%, not 80%
         assessTheoreticalCoherence(concept) {
           const conceptLower = concept.toLowerCase().trim();
 
           const theoryClassification = {
-            genuine_theories: ['relative deprivation', 'democratic peace', 'social identity', 'institutional', 'modernization'],
-            frameworks: ['selectorate', 'principal agent', 'game theory', 'rational choice'],
-            phenomena: ['clientelism', 'corruption', 'polarization', 'populism', 'nationalism'], // CLIENTELISM HERE!
-            concepts: ['democracy', 'authoritarianism', 'legitimacy', 'power', 'inequality'],
+            genuine_theories: ['relative deprivation', 'democratic peace', 'social identity', 'institutional', 'rational choice'],
+            frameworks: ['selectorate', 'principal agent', 'game theory', 'social capital'],
+            phenomena: ['clientelism', 'corruption', 'polarization', 'populism', 'nationalism'],
+            concepts: ['democracy', 'authoritarianism', 'legitimacy', 'power', 'peace'],
           };
 
-          let coherenceScore = 0.3;
+          let coherenceScore = 0.25;
 
           if (theoryClassification.genuine_theories.some((t) => conceptLower.includes(t))) {
             coherenceScore = 0.75 + Math.random() * 0.2; // 75-95%
           } else if (theoryClassification.frameworks.some((f) => conceptLower.includes(f))) {
             coherenceScore = 0.5 + Math.random() * 0.2; // 50-70%
           } else if (theoryClassification.phenomena.some((p) => conceptLower.includes(p))) {
-            coherenceScore = 0.2 + Math.random() * 0.3; // 20-50% - CLIENTELISM GETS LOW SCORE!
+            coherenceScore = 0.2 + Math.random() * 0.3; // 20-50%
           } else if (theoryClassification.concepts.some((c) => conceptLower.includes(c))) {
-            coherenceScore = 0.1 + Math.random() * 0.2; // 10-30%
-          } else if (conceptLower.includes('theory')) {
-            coherenceScore = 0.4 + Math.random() * 0.2; // 40-60%
-          } else {
             coherenceScore = 0.15 + Math.random() * 0.25; // 15-40%
+          } else if (conceptLower.includes('theory')) {
+            coherenceScore = 0.35 + Math.random() * 0.2; // 35-55%
           }
 
           return Math.min(coherenceScore, 1.0);
@@ -946,17 +987,17 @@
 
         assessTestability(concept) {
           const conceptLower = concept.toLowerCase().trim();
-          let testabilityScore = 0.4;
+          let testabilityScore = 0.35;
 
           if (['relative deprivation', 'selectorate', 'democratic peace'].some((t) => conceptLower.includes(t))) {
             testabilityScore += 0.3;
           }
 
-          if (['clientelism', 'populism', 'nationalism'].some((p) => conceptLower.includes(p))) {
-            testabilityScore -= 0.2;
+          if (['clientelism', 'populism', 'peace'].some((p) => conceptLower.includes(p))) {
+            testabilityScore -= 0.15;
           }
 
-          testabilityScore += (Math.random() - 0.5) * 0.3;
+          testabilityScore += (Math.random() - 0.5) * 0.25;
           return Math.max(0.1, Math.min(testabilityScore, 1.0));
         }
 
@@ -969,11 +1010,11 @@
           }
 
           if (['selectorate', 'principal agent'].some((f) => conceptLower.includes(f))) {
-            generativityScore += 0.1;
+            generativityScore += 0.15;
           }
 
-          if (['clientelism', 'corruption'].some((p) => conceptLower.includes(p))) {
-            generativityScore -= 0.2;
+          if (['clientelism', 'corruption', 'peace'].some((p) => conceptLower.includes(p))) {
+            generativityScore -= 0.15;
           }
 
           generativityScore += (Math.random() - 0.5) * 0.2;
@@ -996,8 +1037,8 @@
         }
       }
 
-      // ENHANCED HYPOTHESIS GENERATOR - Generates clear, testable research hypotheses
-      class EnhancedHypothesisGenerator {
+      // REVOLUTIONARY HYPOTHESIS GENERATOR - Clear, testable research hypotheses
+      class RevolutionaryHypothesisGenerator {
         constructor() {
           this.relationshipMemory = new Map();
           this.logicalConstraints = new Set();
@@ -1025,7 +1066,6 @@
               dependent: constructs.filter((c) => relations.some((r) => r[2] === c)),
               moderators: schema.scope_conditions || ['institutional_context'],
               constructs: schema.constructs,
-              theoreticalStatus: schema.theoretical_status || 'established',
             };
           }
 
@@ -1040,20 +1080,18 @@
 
           return {
             independent: [
-              `${conceptRoot}_institutional_strength`,
-              `${conceptRoot}_resource_availability`,
-              `${conceptRoot}_network_density`,
+              `${conceptRoot}_institutional_capacity`,
+              `${conceptRoot}_resource_mobilization`,
+              `${conceptRoot}_actor_networks`,
               `contextual_${conceptRoot}_factors`,
             ],
             dependent: [
-              `${conceptRoot}_effectiveness_outcomes`,
-              `${conceptRoot}_implementation_success`,
+              `${conceptRoot}_implementation_effectiveness`,
+              `${conceptRoot}_outcome_sustainability`,
               `${conceptRoot}_impact_magnitude`,
-              `system_${conceptRoot}_response`,
+              `system_${conceptRoot}_adaptation`,
             ],
-            moderators: ['institutional_capacity', 'resource_constraints', 'temporal_context'],
-            constructs: {},
-            theoreticalStatus: 'conjecture',
+            moderators: ['institutional_strength', 'resource_availability', 'temporal_context'],
           };
         }
 
@@ -1079,7 +1117,8 @@
 
           const X = vars.independent[Math.floor(Math.random() * vars.independent.length)];
           const Y = vars.dependent[Math.floor(Math.random() * vars.dependent.length)];
-          const relation = Math.random() > 0.5 ? 'increases' : 'decreases';
+          const direction = Math.random() > 0.5 ? 'positively' : 'negatively';
+          const relation = direction === 'positively' ? 'increases' : 'decreases';
 
           const validation = this.validateHypothesis(X, relation, Y);
           if (!validation.valid) {
@@ -1087,8 +1126,9 @@
           }
 
           const betaCoeff = (Math.random() * 0.6 + 0.2).toFixed(3);
-          const pValue = Math.random() > 0.5 ? '0.001' : '0.01';
+          const pValue = Math.random() > 0.3 ? '0.001' : '0.01';
           const effectSize = (Math.random() * 0.4 + 0.2).toFixed(2);
+          const rSquared = (Math.random() * 0.25 + 0.15).toFixed(3);
 
           let hypothesis = '';
           let operationalization = '';
@@ -1096,24 +1136,22 @@
 
           switch (pattern.name) {
             case 'direct_causation':
-              hypothesis = `H₁: Higher levels of ${X.replace(/_/g, ' ')} will be significantly associated with ${
-                relation === 'increases' ? 'higher' : 'lower'
-              } levels of ${Y.replace(/_/g, ' ')} (predicted β = ${betaCoeff}, p < ${pValue})`;
-              
-              operationalization = `Operationalize ${X.replace(/_/g, ' ')} using validated measurement scales or composite indices. Measure ${Y.replace(
+              hypothesis = `H₁: ${X.replace(/_/g, ' ')} will be ${direction} associated with ${Y.replace(/_/g, ' ')} (predicted β = ${betaCoeff}, p < ${pValue}, expected R² = ${rSquared})`;
+
+              operationalization = `Measure ${X.replace(/_/g, ' ')} using validated scales or composite indices with established reliability (Cronbach's α ≥ 0.70). Operationalize ${Y.replace(
                 /_/g,
                 ' '
-              )} through standardized indicators with established reliability (Cronbach's α > 0.70)`;
-              
+              )} through standardized outcome indicators with convergent validity testing.`;
+
               methodology = {
-                primary: 'Cross-sectional regression analysis with robust standard errors',
-                alternative: 'Longitudinal panel analysis with fixed effects',
-                robust: 'Instrumental variables estimation to address endogeneity',
+                primary: 'Multiple regression analysis with robust standard errors',
+                alternative: 'Structural equation modeling with latent variables',
+                robust: 'Instrumental variables estimation for causal inference',
               };
               break;
 
             case 'threshold_effect':
-              const threshold = (60 + Math.random() * 20).toFixed(0);
+              const threshold = (55 + Math.random() * 30).toFixed(0);
               hypothesis = `H₁: The relationship between ${X.replace(/_/g, ' ')} and ${Y.replace(
                 /_/g,
                 ' '
@@ -1121,16 +1159,16 @@
                 /_/g,
                 ' '
               )} (predicted threshold effect β = ${(0.4 + Math.random() * 0.6).toFixed(3)})`;
-              
-              operationalization = `Create binary threshold indicator for ${X.replace(
+
+              operationalization = `Create threshold indicator for ${X.replace(
                 /_/g,
                 ' '
-              )} based on empirical distribution. Test piecewise regression models with breakpoint analysis`;
-              
+              )} based on empirical distribution analysis. Use piecewise regression to identify optimal breakpoint and test differential effects above/below threshold.`;
+
               methodology = {
-                primary: 'Regression discontinuity design (RDD) with bandwidth optimization',
+                primary: 'Regression discontinuity design with bandwidth optimization',
                 alternative: 'Piecewise regression with unknown breakpoint estimation',
-                robust: 'Threshold autoregression models with bootstrap confidence intervals',
+                robust: 'Machine learning threshold detection with cross-validation',
               };
               break;
 
@@ -1139,19 +1177,23 @@
               hypothesis = `H₁: The effect of ${X.replace(/_/g, ' ')} on ${Y.replace(
                 /_/g,
                 ' '
-              )} will be significantly stronger when ${moderator.replace(/_/g, ' ')} is high compared to when it is low (predicted interaction β = ${(
-                0.2 + Math.random() * 0.4
-              ).toFixed(3)})`;
-              
-              operationalization = `Standardize all continuous variables. Create interaction term between ${X.replace(
+              )} will be significantly stronger under conditions of high ${moderator.replace(/_/g, ' ')} compared to low ${moderator.replace(
                 /_/g,
                 ' '
-              )} and ${moderator.replace(/_/g, ' ')}. Test simple slopes at ±1 SD of moderator values`;
-              
+              )} (predicted interaction β = ${(0.2 + Math.random() * 0.4).toFixed(3)})`;
+
+              operationalization = `Standardize all continuous predictor variables. Create multiplicative interaction term between centered ${X.replace(
+                /_/g,
+                ' '
+              )} and ${moderator.replace(
+                /_/g,
+                ' '
+              )}. Test simple slopes at high (+1 SD) and low (-1 SD) levels of moderator using Johnson-Neyman technique.`;
+
               methodology = {
-                primary: 'Hierarchical moderated regression analysis with centering',
-                alternative: 'Multi-group structural equation modeling with invariance testing',
-                robust: 'Machine learning approaches with interaction detection algorithms',
+                primary: 'Hierarchical moderated regression with interaction probing',
+                alternative: 'Multi-group analysis with invariance testing across moderator levels',
+                robust: 'Machine learning with interaction effect detection and validation',
               };
               break;
           }
@@ -1160,7 +1202,7 @@
             text: hypothesis,
             operationalization: operationalization,
             methodology: methodology,
-            confidence: `Statistical power analysis recommended (target: 80% power, α = 0.05, effect size ≥ ${effectSize})`,
+            confidence: `Power analysis: Target 80% power with α = 0.05, minimum effect size d ≥ ${effectSize}`,
             variables: { independent: X, dependent: Y, relation, moderator: vars.moderators[0] },
           };
         }
@@ -1173,18 +1215,16 @@
         }
       }
 
-      // Initialize enhanced systems
-      console.log('Initializing revolutionary theory generation system...');
+      // Initialize revolutionary systems
       const theorySpace = new TheoryVectorSpace();
-      const hypothesisGenerator = new EnhancedHypothesisGenerator();
+      const hypothesisGenerator = new RevolutionaryHypothesisGenerator();
 
-      // Usage tracking
       let usageCount = parseInt(localStorage.getItem('theoryThisUsage') || '0');
-      const FREE_LIMIT = 15; // Increased for testing enhanced features
+      const FREE_LIMIT = 20;
 
-      // MAIN ENHANCED GENERATION FUNCTION
+      // MAIN REVOLUTIONARY GENERATION FUNCTION
       function generateTheory() {
-        console.log('Enhanced Theory Generation Started...');
+        console.log('🚀 Revolutionary Theory Generation Started...');
 
         const seedConcept = document.getElementById('seedConcept').value.trim();
         const numConjectures = parseInt(document.getElementById('numConjectures').value);
@@ -1200,19 +1240,14 @@
           return;
         }
 
-        // Show enhanced loading state
         document.getElementById('loading').classList.add('active');
         document.getElementById('generateBtn').disabled = true;
         document.getElementById('emptyState').style.display = 'none';
 
         setTimeout(() => {
           try {
-            console.log('Generating enhanced theory vector and hypotheses...');
-
-            // Generate theory vector with enhanced scoring
             const theoryVector = theorySpace.generateTheoryVector(seedConcept, focusDimension);
 
-            // Generate testable hypotheses
             const hypotheses = [];
             const patterns = [{ name: 'direct_causation' }, { name: 'threshold_effect' }, { name: 'moderated_relationship' }];
 
@@ -1234,16 +1269,13 @@
             }
 
             const metadata = hypothesisGenerator.getGenerationMetadata();
-
-            console.log('Enhanced generation complete. Displaying revolutionary results...');
             displayRevolutionaryResults(theoryVector, hypotheses, metadata, seedConcept);
 
-            // Update usage
             usageCount++;
             localStorage.setItem('theoryThisUsage', usageCount.toString());
           } catch (error) {
-            console.error('Error during enhanced generation:', error);
-            alert('Error generating theory. Please try again.');
+            console.error('Error during generation:', error);
+            alert('Generation error. Please try again.');
           } finally {
             document.getElementById('loading').classList.remove('active');
             document.getElementById('generateBtn').disabled = false;
@@ -1251,7 +1283,7 @@
         }, 1800);
       }
 
-      // REVOLUTIONARY RESULTS DISPLAY WITH VISUAL VECTOR SPACE
+      // REVOLUTIONARY RESULTS DISPLAY WITH ALL ENHANCEMENTS
       function displayRevolutionaryResults(theoryVector, hypotheses, metadata, seedConcept) {
         const outputDiv = document.getElementById('theoryOutput');
 
@@ -1288,19 +1320,19 @@
                     <div class="vector-space-visualization">
                         <h4 class="vector-space-title">📊 Interactive Theory Vector Space Mapping</h4>
                         <canvas id="vectorCanvas" class="vector-canvas"></canvas>
-                        <p style="font-size: 0.8em; color: #666; margin-top: 8px;">
-                            Vector distance from center indicates dimensional activation strength. Click dimensions to explore relationships.
+                        <p style="font-size: 0.8em; color: #666; margin-top: 8px; text-align: center;">
+                            🎯 Theory positioning in multidimensional space • Distance from center = Activation strength
                         </p>
                     </div>
                     
                     <div class="theory-description">
-                        <strong>Vector Position:</strong> This theory is positioned within ${
+                        <strong>🧭 Vector Position Analysis:</strong> This theoretical framework is positioned within ${
                           theoryVector.activeDimensions.length
-                        }-dimensional space, with primary activation in 
-                        ${theoryVector.activeDimensions
+                        }-dimensional vector space, with primary theoretical tensions in 
+                        <em>${theoryVector.activeDimensions
                           .slice(0, 3)
-                          .map((d) => `<em>${d.replace(/_/g, ' ')}</em>`)
-                          .join(', ')} dimensions.
+                          .map((d) => d.replace(/_/g, ' '))
+                          .join(', ')}</em> dimensions.
                     </div>
                     
                     <div class="conjectures-section">
@@ -1310,15 +1342,15 @@
                             (hyp) => `
                             <div class="conjecture-item">
                                 <div class="conjecture-text">
-                                    <strong>${hyp.id}: ${hyp.type} HYPOTHESIS</strong><br>
+                                    <strong>${hyp.id}: ${hyp.type} RESEARCH HYPOTHESIS</strong><br>
                                     ${hyp.text}
                                 </div>
                                 <div class="operationalization-box">
                                     <strong>📋 Operationalization Protocol:</strong><br>
                                     ${hyp.operationalization}
                                 </div>
-                                <div style="font-size: 0.85em; color: #666; margin-top: 8px; font-style: italic;">
-                                    🎯 ${hyp.confidence}
+                                <div class="hypothesis-confidence">
+                                    🎯 <strong>Statistical Requirements:</strong> ${hyp.confidence}
                                 </div>
                             </div>
                         `
@@ -1327,7 +1359,7 @@
                     </div>
                     
                     <div class="methodology-alignment">
-                        <h4>🔬 Research Methodology Recommendations</h4>
+                        <h4>🔬 Aligned Research Methodology Recommendations</h4>
                         <div class="method-recommendations">
                             <div class="method-category">
                                 <h5>📊 Quantitative Approaches</h5>
@@ -1345,41 +1377,46 @@
                     </div>
                     
                     <div class="research-pipeline">
-                        <h4>🚀 Complete Research Pipeline: From Theory to Publication</h4>
+                        <h4>🚀 Complete Research Pipeline: From Literature to Publication</h4>
                         <div class="pipeline-step">
                             <div class="step-number">1</div>
                             <div>
-                                <strong>Literature Review:</strong> Use <a href="https://www.answerthis.ai" target="_blank" class="answer-this-link">Answer This AI</a> for comprehensive systematic literature review and gap identification
+                                <strong>Systematic Literature Review:</strong> Use 
+                                <a href="https://www.answerthis.ai" target="_blank" class="answer-this-link">Answer This AI</a> 
+                                for comprehensive literature analysis and theoretical gap identification
                             </div>
                         </div>
                         <div class="pipeline-step">
                             <div class="step-number">2</div>
-                            <div><strong>Theory Refinement:</strong> Return to Theory This with literature insights to refine theoretical framework and hypotheses</div>
+                            <div><strong>Theory Refinement:</strong> Return to Theory This with literature insights to refine and enhance theoretical framework</div>
                         </div>
                         <div class="pipeline-step">
                             <div class="step-number">3</div>
-                            <div><strong>Research Design:</strong> Implement recommended methodological approaches with proper power analysis</div>
+                            <div><strong>Research Design:</strong> Implement methodology recommendations with proper statistical power analysis and sampling strategy</div>
                         </div>
                         <div class="pipeline-step">
                             <div class="step-number">4</div>
-                            <div><strong>Data Collection:</strong> Execute operationalization protocols with validated measurement instruments</div>
+                            <div><strong>Data Collection:</strong> Execute operationalization protocols using validated instruments and rigorous data collection procedures</div>
                         </div>
                         <div class="pipeline-step">
                             <div class="step-number">5</div>
-                            <div><strong>Analysis & Publication:</strong> Test hypotheses using appropriate statistical methods and report findings</div>
+                            <div><strong>Analysis & Publication:</strong> Test research hypotheses using recommended methods and report findings with theoretical implications</div>
                         </div>
-                        <div style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 6px; font-size: 0.9em;">
-                            💡 <strong>Pro Tip:</strong> After completing your literature review with Answer This, return here to generate additional hypotheses based on identified research gaps!
+                        <div class="research-tip">
+                            💡 <strong>Revolutionary Research Strategy:</strong> After completing literature review with Answer This AI, 
+                            return to Theory This to generate additional hypotheses based on identified research gaps and theoretical limitations. 
+                            This iterative approach ensures novel theoretical contributions beyond existing literature.
                         </div>
                     </div>
                     
                     <div class="methodology-section">
-                        <div class="methodology-title">📈 Generation Analytics</div>
+                        <div class="methodology-title">📈 Advanced Generation Analytics</div>
                         <p style="font-size: 0.9em; margin-top: 8px;">
-                            Vector Space Dimensions: ${metadata.vectorDimensions} | 
+                            Vector Dimensions: ${metadata.vectorDimensions} | 
                             Schema-Enhanced: ${metadata.schemaEnhanced ? 'Yes' : 'No'} | 
-                            Logical Constraints: ${metadata.constraintsApplied} active rules | 
-                            Theory Maturity: ${getTheoryMaturityLevel(theoryVector.scores.coherence)}
+                            Logical Constraints: ${metadata.constraintsApplied} active | 
+                            Theory Maturity: ${getTheoryMaturityLevel(theoryVector.scores.coherence)} | 
+                            Research-Ready: ${theoryVector.scores.testability > 0.6 ? 'Yes' : 'Needs Development'}
                         </p>
                     </div>
                     
@@ -1393,9 +1430,7 @@
                                 <div class="dimension-bar">
                                     <div class="dimension-fill" style="width: ${(theoryVector.position[dim] * 100).toFixed(0)}%"></div>
                                 </div>
-                                <div style="font-size: 0.7em; color: #666; margin-top: 2px;">
-                                    ${(theoryVector.position[dim] * 100).toFixed(0)}% activation
-                                </div>
+                                <div class="dimension-activation">${(theoryVector.position[dim] * 100).toFixed(0)}% activation</div>
                             </div>
                         `
                           )
@@ -1407,14 +1442,12 @@
         outputDiv.innerHTML = html;
         outputDiv.classList.add('active');
 
-        // Draw interactive vector space visualization
-        setTimeout(() => drawInteractiveVectorSpace(theoryVector, seedConcept), 100);
-
-        window.currentTheory = { concept: seedConcept, vector: theoryVector, hypotheses: hypotheses };
+        // Draw revolutionary vector space visualization
+        setTimeout(() => drawRevolutionaryVectorSpace(theoryVector, seedConcept), 200);
       }
 
-      // INTERACTIVE VECTOR SPACE VISUALIZATION
-      function drawInteractiveVectorSpace(theoryVector, seedConcept) {
+      // REVOLUTIONARY INTERACTIVE VECTOR SPACE VISUALIZATION
+      function drawRevolutionaryVectorSpace(theoryVector, seedConcept) {
         const canvas = document.getElementById('vectorCanvas');
         if (!canvas) return;
 
@@ -1422,19 +1455,20 @@
         canvas.width = canvas.offsetWidth;
         canvas.height = 400;
 
-        // Clear canvas with gradient background
-        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        gradient.addColorStop(0, '#f8f9fa');
-        gradient.addColorStop(1, '#ffffff');
-        ctx.fillStyle = gradient;
+        // Enhanced gradient background
+        const bgGradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, 200);
+        bgGradient.addColorStop(0, '#ffffff');
+        bgGradient.addColorStop(0.7, '#f8f9fa');
+        bgGradient.addColorStop(1, '#e9ecef');
+        ctx.fillStyle = bgGradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Draw enhanced grid
-        ctx.strokeStyle = '#e9ecef';
+        // Draw sophisticated grid system
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)';
         ctx.lineWidth = 1;
-        for (let i = 0; i <= 10; i++) {
-          const x = (canvas.width / 10) * i;
-          const y = (canvas.height / 10) * i;
+        for (let i = 0; i <= 12; i++) {
+          const x = (canvas.width / 12) * i;
+          const y = (canvas.height / 12) * i;
           ctx.beginPath();
           ctx.moveTo(x, 0);
           ctx.lineTo(x, canvas.height);
@@ -1445,19 +1479,22 @@
           ctx.stroke();
         }
 
-        // Draw main axes
+        // Draw main coordinate axes
         ctx.strokeStyle = '#495057';
         ctx.lineWidth = 2;
+        ctx.setLineDash([5, 3]);
         ctx.beginPath();
         ctx.moveTo(canvas.width / 2, 0);
         ctx.lineTo(canvas.width / 2, canvas.height);
         ctx.moveTo(0, canvas.height / 2);
         ctx.lineTo(canvas.width, canvas.height / 2);
         ctx.stroke();
+        ctx.setLineDash([]);
 
-        // Plot theory dimensions with enhanced visuals
+        // Plot theory dimensions with enhanced visualization
         const dimensions = theoryVector.activeDimensions.slice(0, 6);
         const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#28a745', '#ffc107'];
+        const dimensionNodes = [];
 
         dimensions.forEach((dim, index) => {
           const activation = theoryVector.position[dim];
@@ -1467,99 +1504,132 @@
           const x = canvas.width / 2 + Math.cos(angle) * radius;
           const y = canvas.height / 2 + Math.sin(angle) * radius;
 
-          // Draw connection line with gradient
+          // Store node for interactivity
+          dimensionNodes.push({ x, y, dim, activation, color: colors[index] });
+
+          // Draw connection with gradient
           const lineGradient = ctx.createLinearGradient(canvas.width / 2, canvas.height / 2, x, y);
-          lineGradient.addColorStop(0, colors[index]);
-          lineGradient.addColorStop(1, colors[index] + '80');
-          
+          lineGradient.addColorStop(0, colors[index] + '40');
+          lineGradient.addColorStop(1, colors[index]);
+
           ctx.strokeStyle = lineGradient;
-          ctx.lineWidth = 4;
+          ctx.lineWidth = Math.max(2, activation * 6);
           ctx.beginPath();
           ctx.moveTo(canvas.width / 2, canvas.height / 2);
           ctx.lineTo(x, y);
           ctx.stroke();
 
-          // Draw dimension point with shadow
+          // Draw dimension node with enhanced styling
           ctx.shadowColor = colors[index];
-          ctx.shadowBlur = 10;
+          ctx.shadowBlur = 8;
           ctx.fillStyle = colors[index];
           ctx.beginPath();
-          ctx.arc(x, y, 10, 0, 2 * Math.PI);
+          ctx.arc(x, y, 8 + activation * 4, 0, 2 * Math.PI);
           ctx.fill();
           ctx.shadowBlur = 0;
 
           // Draw dimension labels with background
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-          ctx.fillRect(x + 15, y - 10, ctx.measureText(dim.replace(/_/g, ' ')).width + 8, 20);
-          
+          const labelText = dim.replace(/_/g, ' ').toUpperCase();
+          const labelWidth = ctx.measureText(labelText).width + 10;
+
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+          ctx.fillRect(x + 15, y - 12, labelWidth, 24);
+
+          ctx.strokeStyle = colors[index];
+          ctx.lineWidth = 1;
+          ctx.strokeRect(x + 15, y - 12, labelWidth, 24);
+
           ctx.fillStyle = '#333';
-          ctx.font = 'bold 11px Arial';
-          ctx.fillText(dim.replace(/_/g, ' '), x + 19, y + 4);
-          
+          ctx.font = 'bold 10px Arial';
+          ctx.fillText(labelText, x + 20, y + 2);
+
           // Add activation percentage
-          ctx.font = '9px Arial';
+          ctx.font = '8px Arial';
           ctx.fillStyle = '#666';
-          ctx.fillText(`${(activation * 100).toFixed(0)}%`, x + 19, y + 16);
+          ctx.fillText(`${(activation * 100).toFixed(0)}%`, x + 20, y + 13);
         });
 
-        // Draw central theory node with enhanced styling
-        const centerGradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, 15);
+        // Draw central theory node with sophisticated styling
+        const centerGradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, 20);
         centerGradient.addColorStop(0, '#ff6b6b');
-        centerGradient.addColorStop(1, '#ee5a52');
-        
+        centerGradient.addColorStop(0.7, '#ee5a52');
+        centerGradient.addColorStop(1, '#dc3545');
+
+        ctx.shadowColor = '#ff6b6b';
+        ctx.shadowBlur = 15;
         ctx.fillStyle = centerGradient;
         ctx.beginPath();
-        ctx.arc(canvas.width / 2, canvas.height / 2, 15, 0, 2 * Math.PI);
+        ctx.arc(canvas.width / 2, canvas.height / 2, 18, 0, 2 * Math.PI);
         ctx.fill();
+        ctx.shadowBlur = 0;
 
         // Theory label with enhanced styling
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-        const labelWidth = ctx.measureText(seedConcept.toUpperCase()).width + 20;
-        ctx.fillRect(canvas.width / 2 - labelWidth / 2, canvas.height / 2 - 35, labelWidth, 25);
-        
-        ctx.fillStyle = '#333';
-        ctx.font = 'bold 14px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText(seedConcept.toUpperCase(), canvas.width / 2, canvas.height / 2 - 18);
+        const theoryLabel = seedConcept.toUpperCase().substring(0, 20);
+        const labelWidth = ctx.measureText(theoryLabel).width + 20;
 
-        // Add legend and instructions
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+        ctx.fillRect(canvas.width / 2 - labelWidth / 2, canvas.height / 2 - 45, labelWidth, 25);
+
+        ctx.strokeStyle = '#ff6b6b';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(canvas.width / 2 - labelWidth / 2, canvas.height / 2 - 45, labelWidth, 25);
+
+        ctx.fillStyle = '#333';
+        ctx.font = 'bold 12px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(theoryLabel, canvas.width / 2, canvas.height / 2 - 28);
+
+        // Add comprehensive legend
         ctx.textAlign = 'left';
         ctx.font = '10px Arial';
-        ctx.fillStyle = '#666';
-        ctx.fillText('Theory Vector Space Visualization • Distance = Activation • Color = Dimension Type', 10, canvas.height - 10);
+        ctx.fillStyle = '#495057';
+        ctx.fillText(
+          '🌐 Revolutionary Vector Space Visualization | Node Size = Activation | Color = Dimension Type | Distance = Theoretical Positioning',
+          10,
+          canvas.height - 10
+        );
+
+        // Store nodes for future interactivity
+        canvas.vectorNodes = dimensionNodes;
       }
 
-      // METHOD SUGGESTIONS GENERATOR WITH ENHANCED RECOMMENDATIONS
+      // ENHANCED METHOD SUGGESTIONS WITH SPECIFIC RECOMMENDATIONS
       function generateMethodSuggestions(hypotheses, methodType) {
-        const methodRecommendations = {
+        const methodLibrary = {
           quantitative: [
-            'Cross-sectional surveys with validated measurement scales',
-            'Longitudinal panel studies with fixed/random effects',
-            'Experimental designs with randomized controlled trials',
-            'Regression discontinuity analysis for causal inference',
-            'Instrumental variables estimation for endogeneity',
-            'Structural equation modeling with latent variables',
+            'Cross-sectional surveys with validated psychometric scales',
+            'Longitudinal panel studies with fixed/random effects models',
+            'Randomized controlled experiments with factorial designs',
+            'Quasi-experimental regression discontinuity analysis',
+            'Instrumental variables estimation for causal inference',
+            'Structural equation modeling with latent variable analysis',
+            'Bayesian multilevel modeling with informative priors',
+            'Machine learning approaches with causal inference frameworks',
           ],
           qualitative: [
-            'In-depth semi-structured interviews with key stakeholders',
+            'Semi-structured interviews with theoretical sampling',
             'Focus group discussions with thematic analysis',
-            'Ethnographic participant observation',
-            'Multiple case study methodology with cross-case analysis',
+            'Ethnographic participant observation with field notes',
+            'Multiple case study design with pattern matching',
             'Process tracing for causal mechanism identification',
-            'Grounded theory approach with theoretical sampling',
+            'Grounded theory approach with constant comparison',
+            'Phenomenological analysis with interpretative frameworks',
+            'Discourse analysis with critical theory perspectives',
           ],
           mixed: [
-            'Sequential explanatory design (QUAN → qual)',
-            'Concurrent triangulation with data integration',
+            'Sequential explanatory design (QUAN → qual validation)',
+            'Concurrent triangulation with data transformation',
             'Embedded case studies with quantitative components',
-            'Multi-phase research design with iterative refinement',
-            'Convergent parallel design with joint analysis',
-            'Transformative mixed methods with social justice focus',
+            'Multi-phase iterative design with theory development',
+            'Convergent parallel design with joint displays',
+            'Transformative mixed methods with participatory elements',
+            'Pragmatic mixed methods with problem-centered approach',
+            'Complex mixed methods with multilevel integration',
           ],
         };
 
-        const suggestions = methodRecommendations[methodType] || [];
-        return suggestions
+        const recommendations = methodLibrary[methodType] || [];
+        return recommendations
           .slice(0, 4)
           .map((method) => `<div class="method-suggestion">${method}</div>`)
           .join('');
@@ -1567,19 +1637,18 @@
 
       // THEORY CLASSIFICATION FUNCTIONS
       function classifyTheoryType(concept, coherenceScore) {
-        const conceptLower = concept.toLowerCase().trim();
-
         if (coherenceScore > 0.7) {
-          return '🏆 Mature Theory - Well-developed theoretical framework ready for empirical testing';
+          return '🏆 Mature Theory - Comprehensive theoretical framework ready for rigorous empirical testing';
         } else if (coherenceScore > 0.5) {
-          return '🔧 Developing Framework - Partial theoretical development with refinement potential';
+          return '🔧 Developing Framework - Substantial theoretical foundation with refinement opportunities';
         } else if (coherenceScore > 0.3) {
-          return '💡 Conceptual Framework - Basic theoretical elements requiring further development';
+          return '💡 Conceptual Framework - Basic theoretical elements requiring systematic development';
         } else {
+          const conceptLower = concept.toLowerCase().trim();
           if (['clientelism', 'corruption', 'populism'].some((p) => conceptLower.includes(p))) {
-            return '📊 Empirical Phenomenon - Observable pattern lacking comprehensive theoretical structure';
+            return '📊 Empirical Phenomenon - Observable patterns lacking comprehensive theoretical structure';
           } else {
-            return '🤔 Interesting Conjecture - Preliminary idea requiring substantial theoretical foundation';
+            return '🤔 Interesting Conjecture - Preliminary theoretical insight requiring substantial development';
           }
         }
       }
@@ -1587,10 +1656,10 @@
       function getTheoreticalStatus(scores) {
         const avg = (scores.coherence + scores.testability + scores.generativity) / 3;
 
-        if (avg > 0.7) return 'Theory-ready for rigorous empirical testing and validation';
-        else if (avg > 0.5) return 'Framework requiring theoretical refinement and operationalization';
-        else if (avg > 0.3) return 'Concept needing substantial theoretical development and specification';
-        else return 'Phenomenon requiring comprehensive theoretical foundation and mechanism identification';
+        if (avg > 0.7) return 'Research-ready for immediate empirical testing and validation studies';
+        else if (avg > 0.5) return 'Framework requiring targeted refinement and operationalization enhancement';
+        else if (avg > 0.3) return 'Concept needing substantial theoretical development and mechanism specification';
+        else return 'Phenomenon requiring comprehensive theoretical foundation and causal pathway identification';
       }
 
       function getDevelopmentNeeds(concept, scores) {
@@ -1598,29 +1667,29 @@
         const conceptLower = concept.toLowerCase().trim();
 
         if (scores.coherence < 0.5) {
-          if (['clientelism', 'corruption'].some((p) => conceptLower.includes(p))) {
+          if (['clientelism', 'corruption', 'peace'].some((p) => conceptLower.includes(p))) {
             needs.push('Develop explicit causal mechanisms and theoretical pathways');
             needs.push('Specify clear scope conditions and boundary parameters');
-            needs.push('Connect to established theoretical traditions');
+            needs.push('Connect to established theoretical traditions and frameworks');
           } else {
-            needs.push('Build comprehensive theoretical framework with clear propositions');
-            needs.push('Establish logical consistency and internal coherence');
+            needs.push('Build comprehensive theoretical framework with logical propositions');
+            needs.push('Establish internal consistency and theoretical coherence');
           }
         }
 
         if (scores.testability < 0.5) {
-          needs.push('Improve operational definitions with measurable indicators');
-          needs.push('Develop validated measurement instruments and protocols');
-          needs.push('Specify testable predictions with falsifiability criteria');
+          needs.push('Improve operational definitions with measurable behavioral indicators');
+          needs.push('Develop validated measurement instruments with demonstrated reliability');
+          needs.push('Specify falsifiable predictions with clear testing protocols');
         }
 
         if (scores.generativity < 0.5) {
-          needs.push('Expand predictive scope to new empirical domains');
-          needs.push('Connect to broader theoretical literatures and debates');
-          needs.push('Generate novel hypotheses beyond existing knowledge');
+          needs.push('Expand predictive scope to novel empirical domains and contexts');
+          needs.push('Generate connections to broader theoretical literatures and debates');
+          needs.push('Develop innovative hypotheses beyond current knowledge boundaries');
         }
 
-        return needs.length > 0 ? needs.join('; ') : 'Ready for immediate empirical application and testing';
+        return needs.length > 0 ? needs.join('; ') : 'Theoretically mature and ready for immediate empirical application';
       }
 
       function getTheoryMaturityLevel(coherenceScore) {
@@ -1655,7 +1724,7 @@
 
       function showUpgradePrompt() {
         alert(
-          `You've used your ${FREE_LIMIT} free theory generations!\n\n🚀 Upgrade to Theory This Pro:\n• Unlimited theory generation\n• Advanced export capabilities\n• API access for integration\n• Priority support\n\n$29/month for researchers and institutions`
+          `🚀 You've used your ${FREE_LIMIT} free revolutionary theory generations!\n\n⭐ Upgrade to Theory This Pro:\n• Unlimited theory generation\n• Advanced export capabilities (PDF, LaTeX, APA)\n• Research collaboration features\n• Priority methodology consultation\n• API access for integration\n\n💰 $29/month for researchers and institutions\n🎓 $19/month for students with valid .edu email`
         );
       }
 
@@ -1667,15 +1736,13 @@
         }
       });
 
-      // Add canvas interactivity
-      document.addEventListener('click', function (e) {
-        if (e.target.id === 'vectorCanvas') {
-          console.log('Vector space canvas clicked - interactive features could be added here');
-        }
+      // Canvas interactivity setup
+      document.addEventListener('DOMContentLoaded', function () {
+        console.log('🎯 Revolutionary features initialized');
       });
 
-      console.log('🚀 Theory This Revolutionary Enhanced Version Fully Loaded and Ready!');
-      console.log('Features: Visual Vector Space | Testable Hypotheses | Method Alignment | Research Pipeline Integration');
+      console.log('🚀 Theory This Revolutionary Enhanced Version FULLY LOADED!');
+      console.log('✅ Features Active: Visual Vector Space | Research Hypotheses | Method Alignment | Answer This Integration');
     </script>
   </body>
-</html> 
+</html>
