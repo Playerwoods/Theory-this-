@@ -795,42 +795,60 @@
             assessTheoreticalCoherence(concept) {
                 const conceptLower = concept.toLowerCase().trim();
                 
-                // Enhanced logic for theory vs phenomenon vs concept classification
-                const theoryIndicators = ['theory', 'model', 'framework', 'approach'];
-                const phenomenonIndicators = ['phenomenon', 'effect', 'bias', 'fallacy', 'behavior'];
-                const conceptIndicators = ['concept', 'idea', 'notion', 'construct'];
+                // Highly developed, well-tested theories
+                if (conceptLower.includes('selectorate')) {
+                    return 0.85 + Math.random() * 0.10; // 85-95% - Formal mathematical model with extensive testing
+                }
                 
-                const hasTheoryIndicator = theoryIndicators.some(indicator => conceptLower.includes(indicator));
-                const hasPhenomenonIndicator = phenomenonIndicators.some(indicator => conceptLower.includes(indicator));
-                const hasConceptIndicator = conceptIndicators.some(indicator => conceptLower.includes(indicator));
+                if (conceptLower.includes('democratic peace')) {
+                    return 0.80 + Math.random() * 0.15; // 80-95% - One of most tested theories in IR
+                }
                 
-                // Specific cases for known problematic classifications
-                if (conceptLower.includes('clientelism') || conceptLower.includes('corruption')) {
-                    return 0.15 + Math.random() * 0.25; // 15-40% - empirical phenomenon
+                if (conceptLower.includes('relative deprivation')) {
+                    return 0.75 + Math.random() * 0.15; // 75-90% - Well-established psychological theory
+                }
+                
+                // Moderately developed theories
+                if (conceptLower.includes('institutional')) {
+                    return 0.65 + Math.random() * 0.20; // 65-85% - Broad but well-developed
+                }
+                
+                if (conceptLower.includes('rational choice')) {
+                    return 0.70 + Math.random() * 0.20; // 70-90% - Formal but contested
+                }
+                
+                // Phenomena masquerading as theories (low coherence)
+                if (conceptLower.includes('clientelism')) {
+                    return 0.25 + Math.random() * 0.20; // 25-45% - Descriptive concept, not explanatory theory
+                }
+                
+                if (conceptLower.includes('corruption')) {
+                    return 0.20 + Math.random() * 0.25; // 20-45% - Phenomenon, not theory
                 }
                 
                 if (conceptLower.includes('peace theory') || conceptLower === 'peace theory') {
-                    return 0.15 + Math.random() * 0.25; // 15-40% - broad conceptual framework
+                    return 0.30 + Math.random() * 0.25; // 30-55% - Too broad to be coherent theory
                 }
                 
-                if (conceptLower.includes('selectorate') || conceptLower.includes('relative deprivation')) {
-                    return 0.70 + Math.random() * 0.25; // 70-95% - established theories
+                // Social identity and psychological theories
+                if (conceptLower.includes('social identity')) {
+                    return 0.70 + Math.random() * 0.15; // 70-85% - Well-developed psychological theory
                 }
                 
-                if (hasTheoryIndicator && (conceptLower.includes('democratic') || conceptLower.includes('institutional'))) {
-                    return 0.60 + Math.random() * 0.30; // 60-90% - formal theories
-                }
+                // Check for theory indicators
+                const hasTheoryIndicator = ['theory', 'model'].some(indicator => conceptLower.includes(indicator));
+                const hasPhenomenonIndicator = ['phenomenon', 'effect', 'bias'].some(indicator => conceptLower.includes(indicator));
                 
                 if (hasPhenomenonIndicator) {
-                    return 0.20 + Math.random() * 0.30; // 20-50% - phenomena
+                    return 0.20 + Math.random() * 0.30; // 20-50% - Phenomena, not theories
                 }
                 
-                if (hasConceptIndicator) {
-                    return 0.40 + Math.random() * 0.30; // 40-70% - concepts
+                if (hasTheoryIndicator) {
+                    return 0.50 + Math.random() * 0.30; // 50-80% - At least claims to be theory
                 }
                 
-                // Default scoring
-                return 0.35 + Math.random() * 0.40; // 35-75% - mixed/unknown
+                // Default for unknown concepts
+                return 0.40 + Math.random() * 0.35; // 40-75% - Unknown coherence
             }
 
             assessTestability(concept) {
@@ -858,7 +876,7 @@
             }
         }
 
-        // ENHANCED HYPOTHESIS GENERATOR
+        // ENHANCED HYPOTHESIS GENERATOR WITH THEORY-SPECIFIC LOGIC
         class EnhancedHypothesisGenerator {
             constructor(theorySpace) {
                 this.theorySpace = theorySpace;
@@ -906,8 +924,16 @@
             }
 
             createHypothesis(seedConcept, dimension, index) {
+                // Generate theory-specific hypotheses instead of random ones
+                const theorySpecificHypothesis = this.generateTheorySpecificHypothesis(seedConcept, dimension, index);
+                
+                if (theorySpecificHypothesis) {
+                    return theorySpecificHypothesis;
+                }
+                
+                // Fallback to pattern-based generation but with theory context
                 const pattern = this.hypothesisPatterns[index % this.hypothesisPatterns.length];
-                const vars = this.selectVariables(seedConcept, dimension);
+                const vars = this.selectTheoryRelevantVariables(seedConcept, dimension);
                 
                 let hypothesisText = pattern;
                 Object.entries(vars).forEach(([key, value]) => {
@@ -925,6 +951,215 @@
                     operationalization: operationalization,
                     testingStrategy: this.generateTestingStrategy(vars)
                 };
+            }
+
+            generateTheorySpecificHypothesis(seedConcept, dimension, index) {
+                const conceptLower = seedConcept.toLowerCase();
+                
+                // SELECTORATE THEORY - Real hypotheses from Bueno de Mesquita et al.
+                if (conceptLower.includes('selectorate')) {
+                    const selectorateHypotheses = [
+                        {
+                            text: "Countries with larger winning coalitions (W/S ratio) will spend more on public goods relative to private goods",
+                            theoreticalBasis: "Core selectorate theory prediction about coalition size and public goods provision",
+                            variables: { 
+                                independent: "Winning coalition size (W/S ratio)",
+                                dependent: "Public goods spending / Private goods spending"
+                            }
+                        },
+                        {
+                            text: "Leaders with small winning coalitions will have longer tenure in office than those with large coalitions",
+                            theoreticalBasis: "Selectorate theory prediction about leader survival",
+                            variables: {
+                                independent: "Winning coalition size",
+                                dependent: "Leader tenure duration"
+                            }
+                        },
+                        {
+                            text: "Autocratic leaders (small W) will provide more targeted benefits to supporters than democratic leaders (large W)",
+                            theoreticalBasis: "Private goods vs public goods trade-off in different regime types",
+                            variables: {
+                                independent: "Regime type (W/S ratio)",
+                                dependent: "Targeted benefits per supporter"
+                            }
+                        }
+                    ];
+                    
+                    const hypothesis = selectorateHypotheses[index % selectorateHypotheses.length];
+                    return {
+                        text: hypothesis.text,
+                        dimension: dimension,
+                        variables: hypothesis.variables,
+                        theoreticalBasis: hypothesis.theoreticalBasis,
+                        statisticalExpectations: this.generateRelevantStatistics(hypothesis),
+                        operationalization: this.generateTheorySpecificOperationalization('selectorate', hypothesis.variables),
+                        testingStrategy: "Cross-national analysis with Polity IV and World Bank governance data"
+                    };
+                }
+                
+                // RELATIVE DEPRIVATION THEORY - Ted Gurr's predictions
+                if (conceptLower.includes('relative deprivation')) {
+                    const deprivationHypotheses = [
+                        {
+                            text: "Groups experiencing rising expectations but declining capabilities will have higher rates of political violence",
+                            theoreticalBasis: "J-curve hypothesis from relative deprivation theory",
+                            variables: {
+                                independent: "Expectation-capability gap",
+                                dependent: "Political violence incidents"
+                            }
+                        },
+                        {
+                            text: "Economic inequality between reference groups will predict collective protest behavior",
+                            theoreticalBasis: "Fraternal relative deprivation mechanism",
+                            variables: {
+                                independent: "Inter-group inequality",
+                                dependent: "Protest frequency"
+                            }
+                        },
+                        {
+                            text: "Rapid economic decline following periods of growth will increase grievance-based mobilization",
+                            theoreticalBasis: "Davies J-curve of rising expectations and revolution",
+                            variables: {
+                                independent: "Economic volatility (boom-bust cycles)",
+                                dependent: "Social movement mobilization"
+                            }
+                        }
+                    ];
+                    
+                    const hypothesis = deprivationHypotheses[index % deprivationHypotheses.length];
+                    return {
+                        text: hypothesis.text,
+                        dimension: dimension,
+                        variables: hypothesis.variables,
+                        theoreticalBasis: hypothesis.theoreticalBasis,
+                        statisticalExpectations: this.generateRelevantStatistics(hypothesis),
+                        operationalization: this.generateTheorySpecificOperationalization('relative_deprivation', hypothesis.variables),
+                        testingStrategy: "Event data analysis with economic time series"
+                    };
+                }
+                
+                // DEMOCRATIC PEACE THEORY - Doyle/Russett predictions
+                if (conceptLower.includes('democratic peace')) {
+                    const peaceHypotheses = [
+                        {
+                            text: "Joint democracy reduces the probability of militarized interstate disputes between dyads",
+                            theoreticalBasis: "Core democratic peace proposition",
+                            variables: {
+                                independent: "Joint democracy score",
+                                dependent: "Militarized interstate dispute onset"
+                            }
+                        },
+                        {
+                            text: "Democratic norms of compromise and negotiation will mediate the relationship between democracy and peaceful conflict resolution",
+                            theoreticalBasis: "Normative explanation for democratic peace",
+                            variables: {
+                                independent: "Democratic institutions",
+                                dependent: "Peaceful dispute resolution",
+                                mediator: "Democratic norms"
+                            }
+                        },
+                        {
+                            text: "Audience costs in democracies will make leaders more credible in international negotiations",
+                            theoreticalBasis: "Institutional explanation for democratic credibility",
+                            variables: {
+                                independent: "Domestic audience costs",
+                                dependent: "Negotiation success rate"
+                            }
+                        }
+                    ];
+                    
+                    const hypothesis = peaceHypotheses[index % peaceHypotheses.length];
+                    return {
+                        text: hypothesis.text,
+                        dimension: dimension,
+                        variables: hypothesis.variables,
+                        theoreticalBasis: hypothesis.theoreticalBasis,
+                        statisticalExpectations: this.generateRelevantStatistics(hypothesis),
+                        operationalization: this.generateTheorySpecificOperationalization('democratic_peace', hypothesis.variables),
+                        testingStrategy: "Dyadic analysis with COW and MID datasets"
+                    };
+                }
+                
+                return null; // No specific hypothesis found, use fallback
+            }
+
+            generateTheorySpecificOperationalization(theory, variables) {
+                const operationalizations = {
+                    selectorate: {
+                        'Winning coalition size (W/S ratio)': 'W/S ratio from Bueno de Mesquita et al. dataset',
+                        'Public goods spending / Private goods spending': 'World Bank public expenditure data / targeted transfers',
+                        'Leader tenure duration': 'Years in office from Archigos dataset',
+                        'Targeted benefits per supporter': 'Government transfers / winning coalition size'
+                    },
+                    relative_deprivation: {
+                        'Expectation-capability gap': 'GDP growth expectations vs actual growth (World Bank)',
+                        'Political violence incidents': 'SCAD or ACLED conflict event counts',
+                        'Inter-group inequality': 'Ethnic income ratios from DHS surveys',
+                        'Economic volatility (boom-bust cycles)': 'GDP growth standard deviation over 5-year windows'
+                    },
+                    democratic_peace: {
+                        'Joint democracy score': 'Minimum Polity IV scores in dyad',
+                        'Militarized interstate dispute onset': 'MID 4.0 dispute initiation (binary)',
+                        'Democratic institutions': 'Polity IV democracy score',
+                        'Domestic audience costs': 'Press freedom + legislative constraints (V-Dem)'
+                    }
+                };
+                
+                const theoryOps = operationalizations[theory] || {};
+                
+                return {
+                    dependent: theoryOps[variables.dependent] || `Standardized measures of ${variables.dependent}`,
+                    independent: theoryOps[variables.independent] || `Validated scales for ${variables.independent}`,
+                    controls: theory === 'selectorate' ? 'GDP per capita, regime age, oil rents' :
+                             theory === 'relative_deprivation' ? 'GDP per capita, population size, ethnic fractionalization' :
+                             'GDP per capita, alliance membership, geographic proximity',
+                    timeframe: theory === 'democratic_peace' ? 'Annual dyad-years 1946-2010' : 'Annual country-years 1960-2020',
+                    sampleSize: theory === 'democratic_peace' ? 'All politically relevant dyads (N ≈ 50,000)' : 'All countries with available data (N ≈ 150)'
+                };
+            }
+
+            generateRelevantStatistics(hypothesis) {
+                // Generate theoretically appropriate effect sizes and directions
+                const isPositiveRelationship = !hypothesis.text.toLowerCase().includes('reduce') && 
+                                              !hypothesis.text.toLowerCase().includes('decrease') &&
+                                              !hypothesis.text.toLowerCase().includes('lower');
+                
+                return {
+                    expectedBeta: isPositiveRelationship ? 
+                        (0.1 + Math.random() * 0.4).toFixed(3) :  // 0.1 to 0.5 for positive
+                        (-0.5 + Math.random() * 0.4).toFixed(3),  // -0.5 to -0.1 for negative
+                    expectedR2: (0.15 + Math.random() * 0.25).toFixed(3), // Realistic R² 0.15-0.40
+                    significanceLevel: Math.random() > 0.6 ? 'p < 0.01' : 'p < 0.05',
+                    effectSize: Math.random() > 0.7 ? 'medium' : 'small to medium',
+                    confidenceInterval: '95% CI',
+                    expectedDirection: isPositiveRelationship ? 'positive' : 'negative'
+                };
+            }
+
+            selectTheoryRelevantVariables(seedConcept, dimension) {
+                // This is now only used as fallback - make it more theory-aware
+                const conceptLower = seedConcept.toLowerCase();
+                
+                if (conceptLower.includes('selectorate')) {
+                    return {
+                        variable1: 'coalition size',
+                        variable2: 'public goods provision',
+                        mechanism: 'loyalty incentives',
+                        direction: 'increase'
+                    };
+                }
+                
+                if (conceptLower.includes('relative deprivation')) {
+                    return {
+                        variable1: 'relative deprivation',
+                        variable2: 'political violence',
+                        mechanism: 'grievance formation',
+                        direction: 'increase'
+                    };
+                }
+                
+                // Original fallback for unknown theories
+                return this.selectVariables(seedConcept, dimension);
             }
 
             selectVariables(seedConcept, dimension) {
@@ -1409,6 +1644,5 @@
             });
         });
     </script>
-
 </body>
 </html>
